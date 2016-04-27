@@ -21,54 +21,79 @@ import javax.swing.JFrame;
 //The canvas used to draw
 public class Canvas extends JComponent {
 
-    Point startPoint, endPoint;//To find the coordinates of the mouse from the begining and endng of the dragging
+    //Tracking each shape in the project, its color, stroke and transparency
+    ArrayList<MyShape> shapeList = new ArrayList<MyShape>();
+
+    //To find the coordinates of the mouse from the begining and endng of the dragging
+    Point startPoint, endPoint;
+
     int x1, y1, x2, y2;
-    static Graphics2D g2;
+    Line2D line2d;
+    Graphics2D g2;
+
     //We use the MouseListener to determine when the mouse is pressed and released to store the start and end point of the coordinates of the shape
     public Canvas() {
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                /*startPoint = new Point(e.getX(), e.getY());
-                x1 = e.getX();
-                y1 = e.getY();
-                x2 = x1;
-                y2 = y1;
-                endPoint = startPoint;
-                System.out.println("Start Point x: "+x1+" Start Point y: "+y1);*/
-
-                //endPoint = startPoint;//Because we don't know yet if the user let go of the mouese
-                //repaint();
                 startPoint = e.getPoint();
                 x1 = startPoint.x;
                 y1 = startPoint.y;
             }
 
             public void mouseReleased(MouseEvent e) {
-                startPoint = null;
+                endPoint = e.getPoint();
+                
+                repaint();
+                //startPoint = null;
+                /*x2 = endPoint.x;
+                y2 = endPoint.y;*/
 
+                //endPoint = null;
             }
 
         });
         this.addMouseMotionListener(new MouseMotionAdapter() {
+//            MyShape aShape = null;
+            public void mouseMoved(MouseEvent e) {
+                endPoint = e.getPoint();
+                x2 = endPoint.x;
+                y2 = endPoint.y;
+            }
+
             public void mouseDragged(MouseEvent e) {
                 endPoint = e.getPoint();
                 x2 = endPoint.x;
                 y2 = endPoint.y;
-                
-                repaint();
+                //ShapeFactory sf = new ShapeFactory();
+                //MyShape aShape = sf.getShape(Paint.selectedBut,startPoint.x,startPoint.y,endPoint.x,endPoint.y);
+                //System.out.println(Paint.selectedBut);
+                //shapeList.add((MyShape)aShape);
+                //aShape.draw(g2);
+                //repaint();
             }
         });
     }
 
     public void paint(Graphics g) {
         g2 = (Graphics2D) g;
-        g2.setColor(Color.RED);
-        Line2D shape = new Line2D.Double();
+        g2.setStroke(new BasicStroke (4));
+        System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
+
         if (startPoint != null && endPoint != null) {
-            shape.setLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y);
-            g2.draw(shape);
-            //repaint();
-            System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
+            ShapeFactory sf = new ShapeFactory();
+            MyShape aShape = sf.getShape(Paint.selectedBut, startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+            aShape.setStrokeColor(Paint.strokeColor);
+            aShape.setFillColor(Paint.fillColor);
+            shapeList.add((MyShape) aShape);
+            //aShape.draw(g2);
+            //g2.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+            for (int i = 0; i < shapeList.size(); i++) {
+                //System.out.println(Paint.strokeColor.toString());
+                g2.setPaint(shapeList.get(i).getStrokeColor());
+                shapeList.get(i).draw(g2);
+                g2.setPaint(shapeList.get(i).getFillColor());
+                shapeList.get(i).fill(g2);
+            }   //repaint();
         }
 
     }

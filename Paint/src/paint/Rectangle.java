@@ -13,28 +13,55 @@ import java.awt.geom.Rectangle2D;
  *
  * @author User
  */
-public class Rectangle implements MyShape{
+public class Rectangle implements MyShape {
+
     protected double x, y, width, height;
     protected Rectangle2D.Double rectShape;
     protected Color fill = Color.WHITE, stroke = Color.BLACK;
-    
-    /** Constructors **/
-    public Rectangle(double x1, double y1, double x2, double y2){
-        x = Math.min(x1,x2);
-        y = Math.min(y1,y2);
+
+    /**
+     * Constructors *
+     */
+    public Rectangle(double x1, double y1, double x2, double y2) {
+        x = Math.min(x1, x2);
+        y = Math.min(y1, y2);
         width = Math.abs(x1 - x2);
         height = Math.abs(y1 - y2);
-        rectShape = new Rectangle2D.Double(x,y,width,height);
+        rectShape = new Rectangle2D.Double(x, y, width, height);
     }
-    
-    /** Operations
-     * @param g **/
+
+    /**
+     * Operations
+     *
+     * @param g *
+     */
     @Override
-    public void draw(Graphics2D g){
+    public void draw(Graphics2D g) {
         System.out.println("Drawing rectangle");
         g.draw(rectShape);
     }
-    public Rectangle2D.Double getRect(){
+
+    public Rectangle2D.Double getRect() {
         return rectShape;
+    }
+
+    public void setStrokeColor(Color c) {
+        stroke = c;
+    }
+
+    public Color getStrokeColor() {
+        return stroke;
+    }
+
+    public void setFillColor(Color c) {
+        fill = c;
+    }
+
+    public Color getFillColor() {
+        return fill;
+    }
+
+    public void fill(Graphics2D g) {
+        g.fill(rectShape);
     }
 }

@@ -23,11 +23,8 @@ import javax.swing.JPanel;
  *
  * @author User
  */
-public class Paint extends JFrame {
-
-    /**
-     * Toolbox *
-     */
+public class Paint extends JFrame{
+    /** Toolbox **/
     JPanel buttonPanel = new JPanel();
     JButton lineBut = new JButton("Line");
     JButton rectBut = new JButton("Rectangle");
@@ -38,31 +35,29 @@ public class Paint extends JFrame {
     JButton fillBut = new JButton("Fill");
     JButton strokeBut = new JButton("Stroke");
     Box optionBox = Box.createHorizontalBox();
-
-    /**
-     * *
-     */
+    
+    /**  **/
+    
     public static String selectedBut = null;
     public static Graphics2D graph;
-    Color strokeColor = Color.BLACK, fillColor = Color.BLACK;
-
-    public Paint() {
+    public static Color strokeColor = Color.BLACK, fillColor = Color.BLACK;
+    
+    public Paint(){
         // Set environment
         this.setSize(800, 600);//set size
         this.setTitle("Java Paint");//set name
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBackground(Color.white);//set background color
-
+        
         // Set toolbox
         createToolBox();//where all the buttons are created
         add(new Canvas());
         buttonPanel.add(optionBox);//where all the buttons are set inside and added to the pannel
-        this.add(buttonPanel, BorderLayout.NORTH);//we used the pannel to set its positions in the drawing area
+        this.add(buttonPanel,BorderLayout.NORTH);//we used the pannel to set its positions in the drawing area
         this.setVisible(true);//set its visibilty to true
-
+        
     }
-
-    //Add Action listenr later to the button int the createToolBox method and find out which button the user has pressed
+ //Add Action listenr later to the button int the createToolBox method and find out which button the user has pressed
     public JButton createButton(String imgPath, String name, int number) {
         JButton ret = new JButton();//Creating JButton
         Icon i = new ImageIcon(imgPath);
@@ -74,8 +69,10 @@ public class Paint extends JFrame {
 
                     // JColorChooser is a popup that lets you pick a color
                     strokeColor = JColorChooser.showDialog(null, "Pick a Stroke", Color.BLACK);
+                    System.out.println(strokeColor.toString());
                 } else if(number == 2){
                     fillColor = JColorChooser.showDialog(null, "Pick a Fill", Color.BLACK);
+                    System.out.println(fillColor.toString());
                 }
                 else
                     selectedBut = name;
@@ -92,8 +89,8 @@ public class Paint extends JFrame {
         ellipseBut = createButton("./ellipse.png", "ellipse", 0);
         circleBut = createButton("./circle.png", "circle", 0);
         triBut = createButton("./tri.png", "triangle", 0);
-        fillBut = createButton("./fill.png","fill", 1);
-        strokeBut = createButton("./pen.png","stroke",2);
+        fillBut = createButton("./fill.png","fill", 2);
+        strokeBut = createButton("./pen.png","stroke",1);
         optionBox.add(lineBut);
         optionBox.add(rectBut);
         optionBox.add(squareBut);
@@ -103,9 +100,9 @@ public class Paint extends JFrame {
         optionBox.add(fillBut);
         optionBox.add(strokeBut);
     }
-
+    
     public static void main(String[] args) {
-
+        
         Paint p = new Paint();
         /*// TEST FACTORY
         ShapeFactory f = new ShapeFactory();
@@ -116,7 +113,7 @@ public class Paint extends JFrame {
         c.draw();
         r.draw();
         // OK GOOD...*/
-
+        
     }
-
+    
 }
