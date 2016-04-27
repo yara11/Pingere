@@ -23,8 +23,7 @@ public class Canvas extends JComponent {
 
     Point startPoint, endPoint;//To find the coordinates of the mouse from the begining and endng of the dragging
     int x1, y1, x2, y2;
-    Line2D line2d;
-
+    static Graphics2D g2;
     //We use the MouseListener to determine when the mouse is pressed and released to store the start and end point of the coordinates of the shape
     public Canvas() {
         this.addMouseListener(new MouseAdapter() {
@@ -51,28 +50,25 @@ public class Canvas extends JComponent {
 
         });
         this.addMouseMotionListener(new MouseMotionAdapter() {
-            public void mouseMoved(MouseEvent e) {
-                endPoint = e.getPoint();
-                x2 = endPoint.x;
-                y2 = endPoint.y;
-            }
-
             public void mouseDragged(MouseEvent e) {
                 endPoint = e.getPoint();
                 x2 = endPoint.x;
                 y2 = endPoint.y;
+                
                 repaint();
             }
         });
     }
 
     public void paint(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
+        g2 = (Graphics2D) g;
         g2.setColor(Color.RED);
-        System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
+        Line2D shape = new Line2D.Double();
         if (startPoint != null && endPoint != null) {
-            g2.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+            shape.setLine(startPoint.x,startPoint.y,endPoint.x,endPoint.y);
+            g2.draw(shape);
             //repaint();
+            System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
         }
 
     }
