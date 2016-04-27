@@ -6,11 +6,15 @@
 package paint;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  *
  * @author User
  */
-public interface Shape{
-    public void draw();
+public interface MyShape{
+    public void draw(Graphics2D g);
+    //public void color(Graphics2D g);
+    
 }

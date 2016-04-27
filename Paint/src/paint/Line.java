@@ -5,12 +5,18 @@
  */
 package paint;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
+
 /**
  *
  * @author User
  */
-public class Line implements Shape{
+public class Line implements MyShape{
     private double x1, y1, x2, y2;
+    private Line2D.Double lineShape;
+    private Color stroke = Color.BLACK;
     
     /** Constructors **/
     public Line(double x1,double y1,double x2,double y2){
@@ -18,12 +24,17 @@ public class Line implements Shape{
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
+        lineShape = new Line2D.Double(x1,y1,x2,y2);
     }
-    public Line(){}
     
     /** Operations **/
     @Override
-    public void draw(){
+    public void draw(Graphics2D g){
+        g.draw(lineShape);
         System.out.println("Drawing Line");
+    }
+    
+    public Line2D.Double getLine(){
+        return lineShape;
     }
 }

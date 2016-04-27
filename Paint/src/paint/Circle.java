@@ -5,6 +5,9 @@
  */
 package paint;
 
+import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
+
 /**
  *
  * @author User
@@ -12,16 +15,16 @@ package paint;
 public class Circle extends Ellipse{
     
     /** Constructors **/
-    public Circle(double X, double Y, double w){
-        super(X, Y, w, w); // width = height
-    }
-    public Circle(){
-        super();
+    public Circle(double x1, double y1, double x2, double y2){
+        super(x1,x2,y1,y2); // width = height
+        this.width = Math.min(this.width,this.height);
+        this.height = this.width;
+        ellipseShape = new Ellipse2D.Double(x,y,width,height);
     }
     
     /** Operations **/
     @Override
-    public void draw(){
+    public void draw(Graphics2D g){
         System.out.println("Drawing circle");
     }
 }

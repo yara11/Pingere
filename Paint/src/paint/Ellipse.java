@@ -5,25 +5,32 @@
  */
 package paint;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
+
 /**
  *
  * @author User
  */
-public class Ellipse implements Shape{
-    private double x, y, width, height;
+public class Ellipse implements MyShape{
+    protected double x, y, width, height;
+    protected Ellipse2D.Double ellipseShape;
+    protected Color fill = Color.WHITE, stroke = Color.BLACK;
     
     /** Constructors **/
-    public Ellipse(double X, double Y, double w, double h){
-        x = X;
-        y = Y;
-        width = w;
-        height = h;
+    public Ellipse(double x1, double y1, double x2, double y2){
+        x = Math.min(x1, x2);
+        y = Math.min(y1, y2);
+        width = Math.abs(x1 - x2);
+        height = Math.abs(y1 - y2);
+        
+        ellipseShape = new Ellipse2D.Double(x,y,width,height);
     }
-    public Ellipse(){}
     
     /** Operations **/
     @Override
-    public void draw(){
+    public void draw(Graphics2D g){
         System.out.println("Drawing Ellipse");
     }
 }

@@ -10,13 +10,13 @@ package paint;
  * @author User
  */
 public class ShapeFactory {
-    public Shape getShape(String shape){
+    public MyShape getShape(String shape,double x1,double y1,double x2,double y2){
         if(shape.equalsIgnoreCase("triangle"))  return new Triangle();
-        if(shape.equalsIgnoreCase("rectangle")) return new Rectangle();
-        if(shape.equalsIgnoreCase("square"))    return new Square();
-        if(shape.equalsIgnoreCase("circle"))    return new Circle();
-        if(shape.equalsIgnoreCase("ellipse"))   return new Ellipse();
-        if(shape.equalsIgnoreCase("line"))      return new Line();
+        if(shape.equalsIgnoreCase("rectangle")) return new Rectangle(x1,y1,x2,y2);
+        if(shape.equalsIgnoreCase("square"))    return new Square(x1,y1,x2,y2);
+        if(shape.equalsIgnoreCase("circle"))    return new Circle(x1,y1,x2,y2);
+        if(shape.equalsIgnoreCase("ellipse"))   return new Ellipse(x1,y1,x2,y2);
+        if(shape.equalsIgnoreCase("line"))      return new Line(x1,y1,x2,y2);
         return null;
     }
 }

@@ -5,17 +5,19 @@
  */
 package paint;
 
+import java.awt.Graphics2D;
+
 /**
  *
  * @author User
  */
-public class Triangle implements Shape{
+public class Triangle implements MyShape{
     /** Constructors **/
     // TO DO : CONSTRUCTORS
     
     /** Operations **/
     @Override
-    public void draw(){
+    public void draw(Graphics2D g){
         System.out.println("Drawing triangle");
     }
 }
