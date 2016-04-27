@@ -85,16 +85,18 @@ public class Canvas extends JComponent {
             aShape.setStrokeColor(Paint.strokeColor);
             aShape.setFillColor(Paint.fillColor);
             shapeList.add((MyShape) aShape);
-            //aShape.draw(g2);
+        }    //aShape.draw(g2);
             //g2.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
             for (int i = 0; i < shapeList.size(); i++) {
                 //System.out.println(Paint.strokeColor.toString());
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                                RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setPaint(shapeList.get(i).getStrokeColor());
                 shapeList.get(i).draw(g2);
                 g2.setPaint(shapeList.get(i).getFillColor());
                 shapeList.get(i).fill(g2);
             }   //repaint();
-        }
+        
 
     }
 

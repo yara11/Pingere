@@ -32,5 +32,26 @@ public class Ellipse implements MyShape{
     @Override
     public void draw(Graphics2D g){
         System.out.println("Drawing Ellipse");
+        g.draw(ellipseShape);
+    }
+    
+       public void setStrokeColor(Color c) {
+        stroke = c;
+    }
+
+    public Color getStrokeColor() {
+        return stroke;
+    }
+
+    public void setFillColor(Color c) {
+        fill = c;
+    }
+
+    public Color getFillColor() {
+        return fill;
+    }
+
+    public void fill(Graphics2D g) {
+        g.fill(ellipseShape);
     }
 }

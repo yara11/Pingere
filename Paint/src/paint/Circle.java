@@ -17,14 +17,13 @@ public class Circle extends Ellipse{
     /** Constructors **/
     public Circle(double x1, double y1, double x2, double y2){
         super(x1,x2,y1,y2); // width = height
-        this.width = Math.min(this.width,this.height);
-        this.height = this.width;
+        x = Math.min(x1,x2);
+        y = Math.min(y1,y2);
+        double a = Math.abs(x1 - x2);
+        double b = Math.abs(y1 - y2);
+        //this.width = a;
+        this.height = this.width = a+b/5;
         ellipseShape = new Ellipse2D.Double(x,y,width,height);
     }
     
-    /** Operations **/
-    @Override
-    public void draw(Graphics2D g){
-        System.out.println("Drawing circle");
-    }
 }

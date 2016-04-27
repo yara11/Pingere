@@ -22,9 +22,4 @@ public class Square extends Rectangle{
         this.rectShape = new Rectangle2D.Double(x,y,width,height);
     }
     
-    /** Operations **/
-    @Override
-    public void draw(Graphics2D g){
-        System.out.println("Drawing Square");
-    }
 }

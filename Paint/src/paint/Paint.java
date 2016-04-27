@@ -40,7 +40,7 @@ public class Paint extends JFrame{
     
     public static String selectedBut = null;
     public static Graphics2D graph;
-    public static Color strokeColor = Color.BLACK, fillColor = Color.BLACK;
+    public static Color strokeColor = Color.BLACK, fillColor = Color.WHITE;
     
     public Paint(){
         // Set environment
@@ -58,24 +58,23 @@ public class Paint extends JFrame{
         
     }
  //Add Action listenr later to the button int the createToolBox method and find out which button the user has pressed
-    public JButton createButton(String imgPath, String name, int number) {
+    public JButton createButton(String imgPath, String name) {
         JButton ret = new JButton();//Creating JButton
         Icon i = new ImageIcon(imgPath);
         ret.setIcon(i);//Setting it to the images placed in a certaing path (the project's source)
         ret.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (number == 1) {
-
+                selectedBut = name;
+                if (selectedBut.equalsIgnoreCase("stroke")) {
                     // JColorChooser is a popup that lets you pick a color
                     strokeColor = JColorChooser.showDialog(null, "Pick a Stroke", Color.BLACK);
                     System.out.println(strokeColor.toString());
-                } else if(number == 2){
+                }
+                if(selectedBut.equalsIgnoreCase("fill")){
                     fillColor = JColorChooser.showDialog(null, "Pick a Fill", Color.BLACK);
                     System.out.println(fillColor.toString());
-                }
-                else
-                    selectedBut = name;
+                } 
             }
         });
         return ret;
@@ -83,14 +82,14 @@ public class Paint extends JFrame{
 
     //Creating the buttons and setting their ImageIcons and the action listner
     public void createToolBox() {
-        lineBut = createButton("./line.png", "line", 0);
-        rectBut = createButton("./rect.png", "rectangle", 0);
-        squareBut = createButton("./square.png", "square", 0);
-        ellipseBut = createButton("./ellipse.png", "ellipse", 0);
-        circleBut = createButton("./circle.png", "circle", 0);
-        triBut = createButton("./tri.png", "triangle", 0);
-        fillBut = createButton("./fill.png","fill", 2);
-        strokeBut = createButton("./pen.png","stroke",1);
+        lineBut = createButton("./line.png", "line");
+        rectBut = createButton("./rect.png", "rectangle");
+        squareBut = createButton("./square.png", "square");
+        ellipseBut = createButton("./ellipse.png", "ellipse");
+        circleBut = createButton("./circle.png", "circle");
+        triBut = createButton("./tri.png", "triangle");
+        fillBut = createButton("./fill.png","fill");
+        strokeBut = createButton("./pen.png","stroke");
         optionBox.add(lineBut);
         optionBox.add(rectBut);
         optionBox.add(squareBut);
