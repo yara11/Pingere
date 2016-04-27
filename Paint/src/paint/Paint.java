@@ -6,14 +6,15 @@
 package paint;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Line2D;
 import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -31,7 +32,6 @@ public class Paint extends JFrame{
     JButton circleBut = new JButton("Circle");
     JButton triBut = new JButton("Triangle");
     Box optionBox = Box.createHorizontalBox();
-    //JComponent drawingSpace = new JComponent();
     
     /**  **/
     
@@ -40,21 +40,24 @@ public class Paint extends JFrame{
     
     public Paint(){
         // Set environment
-        this.setSize(800, 600);
-        this.setTitle("Java Paint");
+        this.setSize(800, 600);//set size
+        this.setTitle("Java Paint");//set name
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setBackground(Color.white);//set background color
         
         // Set toolbox
-        createToolBox();
-        buttonPanel.add(optionBox);
-        this.add(buttonPanel,BorderLayout.NORTH);
-        this.setVisible(true);
+        createToolBox();//where all the buttons are created
+        add(new Canvas());
+        buttonPanel.add(optionBox);//where all the buttons are set inside and added to the pannel
+        this.add(buttonPanel,BorderLayout.NORTH);//we used the pannel to set its positions in the drawing area
+        this.setVisible(true);//set its visibilty to true
+        
     }
-    
+    //Add Action listenr later to the button int the createToolBox method and find out which button the user has pressed
     public JButton createButton(String imgPath,String name){
-        JButton ret = new JButton();
+        JButton ret = new JButton();//Creating JButton
         Icon i = new ImageIcon(imgPath);
-        ret.setIcon(i);
+        ret.setIcon(i);//Setting it to the images placed in a certaing path (the project's source)
         ret.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e) {
                     selectedBut = name;
@@ -62,7 +65,7 @@ public class Paint extends JFrame{
         });
         return ret;
     }
-    
+    //Creating the buttons and setting their ImageIcons and the action listner
     public void createToolBox(){
         lineBut = createButton("./line.png", "line");
         rectBut = createButton("./rect.png", "rectangle");
@@ -80,8 +83,8 @@ public class Paint extends JFrame{
     }
     
     public static void main(String[] args) {
-        Paint newPaint = new Paint();
         
+        Paint p = new Paint();
         /*// TEST FACTORY
         ShapeFactory f = new ShapeFactory();
         Line l = (Line)f.getShape("line");
@@ -91,6 +94,7 @@ public class Paint extends JFrame{
         c.draw();
         r.draw();
         // OK GOOD...*/
+        
     }
     
 }
