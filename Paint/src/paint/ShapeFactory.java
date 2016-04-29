@@ -11,7 +11,7 @@ package paint;
  */
 public class ShapeFactory {
     public MyShape getShape(String shape,double x1,double y1,double x2,double y2){
-        if(shape.equalsIgnoreCase("triangle"))  return new Triangle();
+        //if(shape.equalsIgnoreCase("triangle"))  return new Triangle();
         if(shape.equalsIgnoreCase("rectangle")) return new Rectangle(x1,y1,x2,y2);
         if(shape.equalsIgnoreCase("square"))    return new Square(x1,y1,x2,y2);
         if(shape.equalsIgnoreCase("circle"))    return new Circle(x1,y1,x2,y2);

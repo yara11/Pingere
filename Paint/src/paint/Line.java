@@ -7,58 +7,42 @@ package paint;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.Line2D;
 
 /**
  *
  * @author User
  */
-public class Line implements MyShape {
-
+public class Line extends MyShape {
     private double x1, y1, x2, y2;
     private Line2D.Double lineShape;
-    private Color stroke = Color.BLACK;
 
-    /**
-     * Constructors *
-     */
+    /** Constructor **/
     public Line(double x1, double y1, double x2, double y2) {
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
         lineShape = new Line2D.Double(x1, y1, x2, y2);
+        selectX = Math.min(x1,x2); selectY = Math.min(y1,y2); 
+        selectWidth = Math.abs(x1 - x2); selectHeight = Math.abs(y1 - y2);
     }
 
-    /**
-     * Operations *
-     */
+    /** Operations **/
     @Override
     public void draw(Graphics2D g) {
+        g.setStroke(this.strokeType);
+        g.setPaint(this.stroke);
         g.draw(lineShape);
         System.out.println("Drawing Line");
     }
 
-    public Line2D.Double getLine() {
+    public void color(Graphics2D g, Color newFill){
+        // do nothing here.
+    }
+    
+    public Shape getShape(){
         return lineShape;
-    }
-
-    public void setStrokeColor(Color c) {
-        stroke = c;
-    }
-
-    public Color getStrokeColor() {
-        return stroke;
-    }
-
-    public void setFillColor(Color c) {
-    }
-
-    public Color getFillColor() {
-        return null;
-    }
-
-    public void fill(Graphics2D g) {
-
     }
 }

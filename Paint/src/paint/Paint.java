@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 public class Paint extends JFrame{
     /** Toolbox **/
     JPanel buttonPanel = new JPanel();
+    JPanel buttonPanel2 = new JPanel();
     JButton lineBut = new JButton("Line");
     JButton rectBut = new JButton("Rectangle");
     JButton squareBut = new JButton("Square");
@@ -34,30 +35,38 @@ public class Paint extends JFrame{
     JButton triBut = new JButton("Triangle");
     JButton fillBut = new JButton("Fill");
     JButton strokeBut = new JButton("Stroke");
+    JButton select, move, resize, delete, fill;
     Box optionBox = Box.createHorizontalBox();
+    Box toolBox = Box.createVerticalBox();
     
     /**  **/
     
     public static String selectedBut = null;
-    public static Graphics2D graph;
-    public static Color strokeColor = Color.BLACK, fillColor = Color.WHITE;
+    public static Color strokeColor = Color.BLACK;
+    public static Color fillColor = Color.WHITE;
     
     public Paint(){
         // Set environment
         this.setSize(800, 600);//set size
         this.setTitle("Java Paint");//set name
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBackground(Color.white);//set background color
+        this.getContentPane().setBackground(Color.white);//set background color
         
-        // Set toolbox
-        createToolBox();//where all the buttons are created
-        add(new Canvas());
+        // Set toolboxes
+        createOptionBox();// Where all the buttons are created
+        createToolBox();
         buttonPanel.add(optionBox);//where all the buttons are set inside and added to the pannel
-        this.add(buttonPanel,BorderLayout.NORTH);//we used the pannel to set its positions in the drawing area
-        this.setVisible(true);//set its visibilty to true
+        buttonPanel2.add(toolBox);
+        
+        // We used the pannel to set its positions in the drawing area
+        this.add(buttonPanel,BorderLayout.PAGE_START);
+        this.add(buttonPanel2,BorderLayout.WEST);
+        this.add(new Canvas());
+        this.setVisible(true);// Set its visibilty to true
         
     }
- //Add Action listenr later to the button int the createToolBox method and find out which button the user has pressed
+ 
+    // Creates new button with given icon and name
     public JButton createButton(String imgPath, String name) {
         JButton ret = new JButton();//Creating JButton
         Icon i = new ImageIcon(imgPath);
@@ -66,40 +75,64 @@ public class Paint extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectedBut = name;
-                if (selectedBut.equalsIgnoreCase("stroke")) {
-                    // JColorChooser is a popup that lets you pick a color
-                    strokeColor = JColorChooser.showDialog(null, "Pick a Stroke", Color.BLACK);
-                    System.out.println(strokeColor.toString());
-                }
-                if(selectedBut.equalsIgnoreCase("fill")){
-                    fillColor = JColorChooser.showDialog(null, "Pick a Fill", Color.BLACK);
-                    System.out.println(fillColor.toString());
-                } 
+                System.out.println(selectedBut);
             }
         });
         return ret;
     }
 
     //Creating the buttons and setting their ImageIcons and the action listner
-    public void createToolBox() {
+    public void createOptionBox() {
         lineBut = createButton("./line.png", "line");
         rectBut = createButton("./rect.png", "rectangle");
         squareBut = createButton("./square.png", "square");
         ellipseBut = createButton("./ellipse.png", "ellipse");
         circleBut = createButton("./circle.png", "circle");
         triBut = createButton("./tri.png", "triangle");
-        fillBut = createButton("./fill.png","fill");
         strokeBut = createButton("./pen.png","stroke");
+        
+        strokeBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // JColorChooser is a popup that lets you pick a color
+                Color temp = JColorChooser.showDialog(null, "Pick stroke color", Color.BLACK);
+                if(temp != null)    strokeColor = temp;
+                System.out.println(strokeColor.toString());
+            }
+        });
+        
         optionBox.add(lineBut);
         optionBox.add(rectBut);
         optionBox.add(squareBut);
         optionBox.add(ellipseBut);
         optionBox.add(circleBut);
         optionBox.add(triBut);
-        optionBox.add(fillBut);
         optionBox.add(strokeBut);
     }
     
+    public void createToolBox(){
+        select = createButton("./select.png","select");
+        fillBut = createButton("./fill.png","fill");
+        move = createButton("./move.png","move");
+        resize = createButton("./resize.jpg","resize");
+        delete = createButton("./delete.png","delete");
+        
+        fillBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // JColorChooser is a popup that lets you pick a color
+                Color temp = JColorChooser.showDialog(null, "Pick fill color", Color.white);
+                if(temp != null)    fillColor = temp;
+                System.out.println(Paint.fillColor.toString());
+            }
+        });
+        
+        toolBox.add(select);
+        toolBox.add(fillBut);
+        toolBox.add(move);
+        toolBox.add(resize);
+        toolBox.add(delete);
+    }
     public static void main(String[] args) {
         
         Paint p = new Paint();

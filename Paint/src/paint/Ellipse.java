@@ -7,16 +7,17 @@ package paint;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
 /**
  *
  * @author User
  */
-public class Ellipse implements MyShape{
+public class Ellipse extends MyShape{
     protected double x, y, width, height;
     protected Ellipse2D.Double ellipseShape;
-    protected Color fill = Color.WHITE, stroke = Color.BLACK;
+    //protected Color fill = Color.WHITE, stroke = Color.BLACK;
     
     /** Constructors **/
     public Ellipse(double x1, double y1, double x2, double y2){
@@ -24,34 +25,29 @@ public class Ellipse implements MyShape{
         y = Math.min(y1, y2);
         width = Math.abs(x1 - x2);
         height = Math.abs(y1 - y2);
-        
         ellipseShape = new Ellipse2D.Double(x,y,width,height);
+        selectX = x - 10; selectY = y - 10; selectWidth = width + 20; selectHeight = height + 20;
     }
     
     /** Operations **/
     @Override
     public void draw(Graphics2D g){
         System.out.println("Drawing Ellipse");
+        g.setStroke(this.strokeType);
+        g.setPaint(this.stroke);
         g.draw(ellipseShape);
+        if(this.fill != null){
+            g.setPaint(this.fill);
+            g.fill(ellipseShape);
+        }
     }
     
-       public void setStrokeColor(Color c) {
-        stroke = c;
+    public void color(Graphics2D g, Color newFill){
+        this.setFillColor(newFill);
+        draw(g);
     }
-
-    public Color getStrokeColor() {
-        return stroke;
-    }
-
-    public void setFillColor(Color c) {
-        fill = c;
-    }
-
-    public Color getFillColor() {
-        return fill;
-    }
-
-    public void fill(Graphics2D g) {
-        g.fill(ellipseShape);
+    
+    public Shape getShape(){
+        return ellipseShape;
     }
 }
