@@ -27,5 +27,8 @@ public class Circle extends Ellipse{
         ellipseShape = new Ellipse2D.Double(x,y,width,height);
         selectX = x - 10; selectY = y - 10; selectWidth = width + 20; selectHeight = height + 20;
     }
-    
+    @Override
+    public void resize(double newWidth, double newHeight){
+        super.resize(Math.min(newWidth, newHeight),Math.min(newWidth, newHeight));
+    }
 }

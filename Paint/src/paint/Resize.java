@@ -5,6 +5,8 @@
  */
 package paint;
 
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author Krietallo
@@ -20,35 +22,40 @@ public class Resize extends javax.swing.JFrame {
      * Creates new form Resize
      */
     public double getW() {
-        return Double.parseDouble(jTextField1.getText());
+        return newW;
     }
 
     public double getH() {
-        return Double.parseDouble(jTextField2.getText());
+        return newH;
     }
-
+    
+    public void addButtonAL(ActionListener AL){
+        jButton1.addActionListener(AL);
+    }
+    
     public Resize() {
-        flag = false;
+        //flag = false;
         initComponents();
         setVisible(true);
         double w = Canvas.selectedShape.getWidth();
         double h = Canvas.selectedShape.getHeight();
         jTextField1.setText(Double.toString(w));
         jTextField2.setText(Double.toString(h));
-
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        System.out.println("Old dimensions: "+w+" "+h);
+        /*jButton1.addActionListener(new java.awt.event.ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //jButton1ActionPerformed(evt);
+            public void actionPerformed(java.awt.event.ActionEvent evt) { // TODO add your handling code here:
                 /*newWidthString = jTextField1.getText();
                 newHeightString = jTextField2.getText();
                 newW = Double.parseDouble(newWidthString);
                 newH = Double.parseDouble(newHeightString);
                 System.out.println(newWidthString + " " + newHeightString);
-                flag = true;
+                Canvas.selectedShape.resize(newH, newW);
+                repaint();
+                //flag = true;
                 setVisible(false);*/
-            }
-        });
+            //}
+        //});*/
     }
 
     /**
@@ -65,7 +72,6 @@ public class Resize extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -83,13 +89,6 @@ public class Resize extends javax.swing.JFrame {
 
         jTextField2.setText("jTextField2");
 
-        jCheckBox1.setText("Aspect ratio");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("OK");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -102,21 +101,22 @@ public class Resize extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(49, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jCheckBox1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
-                .addGap(46, 46, 46))
+                    .addComponent(jLabel1))
+                .addGap(146, 146, 146))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(116, 116, 116)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(68, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(116, 116, 116)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,9 +130,7 @@ public class Resize extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jButton1))
+                .addComponent(jButton1)
                 .addContainerGap(86, Short.MAX_VALUE))
         );
 
@@ -154,18 +152,16 @@ public class Resize extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         newWidthString = jTextField1.getText();
         newHeightString = jTextField2.getText();
         newW = Double.parseDouble(newWidthString);
         newH = Double.parseDouble(newHeightString);
-        System.out.println(newWidthString + " " + newHeightString);
-        flag = true;
+        System.out.println("New dimensions: " + newW + " " + newH);
+        Canvas.selectedShape.resize(newW, newH);
+        //repaint();
+        //flag = true;
         setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -210,7 +206,6 @@ public class Resize extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

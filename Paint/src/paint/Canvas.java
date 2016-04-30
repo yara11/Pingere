@@ -6,6 +6,8 @@
 package paint;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -101,13 +103,24 @@ public class Canvas extends JComponent {
                 if (Paint.selectedBut.equals("resize")) {
                     selectedShape = getSelectedShape(startPoint);
                     Resize r = new Resize();
-                    System.out.println(r.getW() + " the dimensios " + r.getH());
-                    if (r.flag) {
+                    System.out.println(r.getW() + " the dimensions " + r.getH());
+                    ActionListener AL = new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            selectedShape.resize(r.getW(), r.getH());
+                            repaint();
+                        }
+                    };
+                    r.addButtonAL(AL);
+                    /*if (r.flag) {
                         selectedShape.resize(r.getW(), r.getH());
                         repaint();
-                    }
+                        r.flag = true;
+                    }*/
+                    //repaint();
 
                 }
+
             }
 
             @Override
@@ -219,4 +232,10 @@ public class Canvas extends JComponent {
         //k.setIndex(nextIndex++);
         shapeList.add(k);//then added again so that it is the newest shape in the ArrayList
     }
+
+    //So wrong
+    /*public static void repaintOutside(){
+        Canvas n = new Canvas();
+        n.repaint();
+    }*/
 }

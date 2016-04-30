@@ -56,8 +56,8 @@ public class Ellipse extends MyShape{
     }
     
     public void resize(double newWidth, double newHeight){
-         width = newWidth;
-         height = newHeight;
+        width = newWidth;
+        height = newHeight;
         ellipseShape = new Ellipse2D.Double(x, y, width, height);
         selectX = x - 10;
         selectY = y - 10;
