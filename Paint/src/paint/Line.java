@@ -6,30 +6,41 @@
 package paint;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  *
  * @author User
  */
 public class Line extends MyShape {
+
     private double x1, y1, x2, y2;
     private Line2D.Double lineShape;
+    private Rectangle2D.Double rectangularBoundry;
 
-    /** Constructor **/
+    /**
+     * Constructor *
+     */
     public Line(double x1, double y1, double x2, double y2) {
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
         lineShape = new Line2D.Double(x1, y1, x2, y2);
-        selectX = Math.min(x1,x2); selectY = Math.min(y1,y2); 
-        selectWidth = Math.abs(x1 - x2); selectHeight = Math.abs(y1 - y2);
+        selectX = Math.min(x1, x2);
+        selectY = Math.min(y1, y2);
+        selectWidth = Math.abs(x1 - x2);
+        selectHeight = Math.abs(y1 - y2);
+        rectangularBoundry = new Rectangle2D.Double(Math.min(x1,x2), Math.min(y1,y2), Math.abs(x1-x2), Math.abs(y1-y2));
     }
 
-    /** Operations **/
+    /**
+     * Operations *
+     */
     @Override
     public void draw(Graphics2D g) {
         g.setStroke(this.strokeType);
@@ -38,11 +49,24 @@ public class Line extends MyShape {
         System.out.println("Drawing Line");
     }
 
-    public void color(Graphics2D g, Color newFill){
+    public void move(double xDifference, double yDifference) {
+        x1 += xDifference;
+        y1 += yDifference;
+        x2 += xDifference;
+        y2 += yDifference;
+        lineShape = new Line2D.Double(x1, y1, x2, y2);
+        selectX = Math.min(x1, x2);
+        selectY = Math.min(y1, y2);
+        selectWidth = Math.abs(x1 - x2);
+        selectHeight = Math.abs(y1 - y2);
+        rectangularBoundry = new Rectangle2D.Double(Math.min(x1,x2), Math.min(y1,y2), Math.abs(x1-x2), Math.abs(y1-y2));
+    }
+
+    public void color(Graphics2D g, Color newFill) {
         // do nothing here.
     }
-    
-    public Shape getShape(){
-        return lineShape;
+
+    public Shape getShape() {
+        return rectangularBoundry;
     }
 }

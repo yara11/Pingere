@@ -29,7 +29,8 @@ public class Ellipse extends MyShape{
         selectX = x - 10; selectY = y - 10; selectWidth = width + 20; selectHeight = height + 20;
     }
     
-    /** Operations **/
+    /** Operations
+     * @param g **/
     @Override
     public void draw(Graphics2D g){
         System.out.println("Drawing Ellipse");
@@ -41,12 +42,21 @@ public class Ellipse extends MyShape{
             g.fill(ellipseShape);
         }
     }
-    
+    @Override
+    public void move(double xDifference, double yDifference) {
+        x += xDifference;
+        y += yDifference;
+        ellipseShape = new Ellipse2D.Double(x,y,width,height);
+        selectX = x - 10; selectY = y - 10; selectWidth = width + 20; selectHeight = height + 20;
+    }
+    @Override
     public void color(Graphics2D g, Color newFill){
         this.setFillColor(newFill);
         draw(g);
     }
     
+    
+    @Override
     public Shape getShape(){
         return ellipseShape;
     }

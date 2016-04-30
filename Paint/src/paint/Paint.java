@@ -27,15 +27,7 @@ public class Paint extends JFrame{
     /** Toolbox **/
     JPanel buttonPanel = new JPanel();
     JPanel buttonPanel2 = new JPanel();
-    JButton lineBut = new JButton("Line");
-    JButton rectBut = new JButton("Rectangle");
-    JButton squareBut = new JButton("Square");
-    JButton ellipseBut = new JButton("Ellipse");
-    JButton circleBut = new JButton("Circle");
-    JButton triBut = new JButton("Triangle");
-    JButton fillBut = new JButton("Fill");
-    JButton strokeBut = new JButton("Stroke");
-    JButton select, move, resize, delete, fill;
+    JButton lineBut, rectBut,squareBut, ellipseBut, circleBut, triBut, fillBut, strokeBut, select, move, resize, delete, fill;
     Box optionBox = Box.createHorizontalBox();
     Box toolBox = Box.createVerticalBox();
     

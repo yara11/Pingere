@@ -7,11 +7,9 @@ package paint;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.Stroke;
-import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -24,13 +22,16 @@ public abstract class MyShape{
     protected double selectX, selectY, selectWidth, selectHeight; 
     // graphics attributes
     protected Color fill = null, stroke = Color.BLACK;
+    //We have option of trasparency or white
+    //protected Color newfFill = Color.WHITE;
     protected Stroke strokeType = new BasicStroke (4);
     
     // functionality methods
     public abstract void draw(Graphics2D g);
     public abstract void color(Graphics2D g, Color newFill);
+    
     //public abstract void resize(Graphics2D g);
-    //public abstract void move(Graphics2D g);
+    public abstract void move(double xDifference, double yDifference);
     //public abstract void delete(Graphics2D g);
     
     public abstract Shape getShape();
@@ -72,5 +73,6 @@ public abstract class MyShape{
             z.strokeType = dashed;
             z.stroke = Color.red;
             return z;
+            
     }
 }
