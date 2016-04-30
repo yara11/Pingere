@@ -16,6 +16,7 @@ import java.awt.Stroke;
  * @author User
  */
 public abstract class MyShape{
+    protected double x, y, width, height;
     // index of drawn shape
     private int index;
     // these parameters are used to draw a rectangle around shape when selected
@@ -30,11 +31,17 @@ public abstract class MyShape{
     public abstract void draw(Graphics2D g);
     public abstract void color(Graphics2D g, Color newFill);
     
-    //public abstract void resize(Graphics2D g);
+    public abstract void resize(double newWidth, double newHeight);
     public abstract void move(double xDifference, double yDifference);
     //public abstract void delete(Graphics2D g);
     
     public abstract Shape getShape();
+    public double getWidth(){
+        return width;
+    }
+    public double getHeight(){
+        return height;
+    }
     
     // getters and setters
     public void setStrokeColor(Color c) {

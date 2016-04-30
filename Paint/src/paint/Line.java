@@ -61,7 +61,18 @@ public class Line extends MyShape {
         selectHeight = Math.abs(y1 - y2);
         rectangularBoundry = new Rectangle2D.Double(Math.min(x1,x2), Math.min(y1,y2), Math.abs(x1-x2), Math.abs(y1-y2));
     }
-
+    
+    /*public void resize(double newWidth, double newHeight){
+        x2 = x1
+         width = newWidth;
+         height = newHeight;
+        lineShape = new Line2D.Double(x1, y1, x2, y2);
+        selectX = x - 10;
+        selectY = y - 10;
+        selectWidth = width + 20;
+        selectHeight = height + 20;
+    }*/
+    
     public void color(Graphics2D g, Color newFill) {
         // do nothing here.
     }

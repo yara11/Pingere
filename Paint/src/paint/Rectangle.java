@@ -16,7 +16,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class Rectangle extends MyShape {
 
-    protected double x, y, width, height;
+    //protected double x, y, width, height;
     protected Rectangle2D.Double rectShape;
 
     /**
@@ -65,6 +65,16 @@ public class Rectangle extends MyShape {
         this.setFillColor(newFill);
         draw(g);
     }
+    
+     public void resize(double newWidth, double newHeight){
+         width = newWidth;
+         height = newHeight;
+        rectShape = new Rectangle2D.Double(x, y, width, height);
+        selectX = x - 10;
+        selectY = y - 10;
+        selectWidth = width + 20;
+        selectHeight = height + 20;
+     }
 
     public Shape getShape() {
         return rectShape;

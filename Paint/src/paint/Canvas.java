@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.JColorChooser;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import paint.Resize;
 
 /**
  *
@@ -28,7 +29,7 @@ public class Canvas extends JComponent {
 
     // To find the coordinates of the mouse from the begining and endng of the dragging
     Point startPoint, endPoint, endPointMove;
-    MyShape selectedShape = null;
+    public static MyShape selectedShape = null;
     Graphics2D g2;
 
     // Tracking index of next shape
@@ -89,6 +90,24 @@ public class Canvas extends JComponent {
                         repaint();
                     }
                 }
+                if (Paint.selectedBut.equals("delete")) {
+                    selectedShape = getSelectedShape(startPoint);
+                    if (selectedShape != null) {
+                        bringFront(selectedShape);
+                        shapeList.remove(selectedShape);
+                    }
+                    repaint();
+                }
+                if (Paint.selectedBut.equals("resize")) {
+                    selectedShape = getSelectedShape(startPoint);
+                    Resize r = new Resize();
+                    System.out.println(r.getW() + " the dimensios " + r.getH());
+                    if (r.flag) {
+                        selectedShape.resize(r.getW(), r.getH());
+                        repaint();
+                    }
+
+                }
             }
 
             @Override
@@ -99,11 +118,11 @@ public class Canvas extends JComponent {
                     selectedShape.move(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
                     //System.out.println((endPoint.x - startPoint.x) + " " + (endPoint.y - startPoint.y));
                     for (MyShape s : shapeList) {
-                            if (s.getStroke().equals(dashed)) {
-                                shapeList.remove(s);
-                                break;
-                            }
+                        if (s.getStroke().equals(dashed)) {
+                            shapeList.remove(s);
+                            break;
                         }
+                    }
                     shapeList.add(selectedShape.drawSelectRectangle());
                     repaint();
                 }
@@ -111,7 +130,7 @@ public class Canvas extends JComponent {
                     endPoint = null;
                     return;
                 }
-                 
+
                 repaint();
 
             }
@@ -185,8 +204,9 @@ public class Canvas extends JComponent {
         MyShape ret = null;
         for (MyShape sh : shapeList) {
             if (sh.getShape().contains(p) && sh.getIndex() > greatestInd) {
-                if(sh.getStroke().equals(dashed))
+                if (sh.getStroke().equals(dashed)) {
                     continue;
+                }
                 ret = sh;
                 greatestInd = sh.getIndex();
             }

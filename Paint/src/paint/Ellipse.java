@@ -15,7 +15,7 @@ import java.awt.geom.Ellipse2D;
  * @author User
  */
 public class Ellipse extends MyShape{
-    protected double x, y, width, height;
+    //protected double x, y, width, height;
     protected Ellipse2D.Double ellipseShape;
     //protected Color fill = Color.WHITE, stroke = Color.BLACK;
     
@@ -55,6 +55,15 @@ public class Ellipse extends MyShape{
         draw(g);
     }
     
+    public void resize(double newWidth, double newHeight){
+         width = newWidth;
+         height = newHeight;
+        ellipseShape = new Ellipse2D.Double(x, y, width, height);
+        selectX = x - 10;
+        selectY = y - 10;
+        selectWidth = width + 20;
+        selectHeight = height + 20;
+    }
     
     @Override
     public Shape getShape(){
