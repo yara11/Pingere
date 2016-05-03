@@ -31,4 +31,8 @@ public class Circle extends Ellipse{
     public void resize(double newWidth, double newHeight){
         super.resize(Math.min(newWidth, newHeight),Math.min(newWidth, newHeight));
     }
+    @Override
+    public String getType() {
+        return "Circle";
+    }
 }

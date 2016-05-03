@@ -27,7 +27,7 @@ public class Paint extends JFrame{
     /** Toolbox **/
     JPanel buttonPanel = new JPanel();
     JPanel buttonPanel2 = new JPanel();
-    JButton lineBut, rectBut,squareBut, ellipseBut, circleBut, triBut, fillBut, strokeBut, select, move, resize, delete, fill;
+    JButton lineBut, rectBut,squareBut, ellipseBut, circleBut, triBut, fillBut, strokeBut, select, move, resize, delete, fill, copy;// paste;
     Box optionBox = Box.createHorizontalBox();
     Box toolBox = Box.createVerticalBox();
     
@@ -88,7 +88,8 @@ public class Paint extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 // JColorChooser is a popup that lets you pick a color
                 Color temp = JColorChooser.showDialog(null, "Pick stroke color", Color.BLACK);
-                if(temp != null)    strokeColor = temp;
+                if(temp != null)    
+                    strokeColor = temp;
                 System.out.println(strokeColor.toString());
             }
         });
@@ -108,13 +109,16 @@ public class Paint extends JFrame{
         move = createButton("./move.png","move");
         resize = createButton("./resize.jpg","resize");
         delete = createButton("./delete.png","delete");
+        copy =  createButton("./copy.png","copy");
+        //paste =  createButton("./paste.png","paste");
         
         fillBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // JColorChooser is a popup that lets you pick a color
                 Color temp = JColorChooser.showDialog(null, "Pick fill color", Color.white);
-                if(temp != null)    fillColor = temp;
+                if(temp != null)    
+                    fillColor = temp;
                 System.out.println(Paint.fillColor.toString());
             }
         });
@@ -124,6 +128,8 @@ public class Paint extends JFrame{
         toolBox.add(move);
         toolBox.add(resize);
         toolBox.add(delete);
+        toolBox.add(copy);
+        //toolBox.add(paste);
     }
     public static void main(String[] args) {
         

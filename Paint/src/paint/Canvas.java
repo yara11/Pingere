@@ -92,6 +92,38 @@ public class Canvas extends JComponent {
                         repaint();
                     }
                 }
+                if (Paint.selectedBut.equals("copy")) {
+                    selectedShape = getSelectedShape(startPoint);
+                    if (selectedShape != null) {
+                        bringFront(selectedShape);
+                        // Unselect already selected shape, if any:
+                        // Remove the dashed rectangle from shapeList
+                        for (MyShape s : shapeList) {
+                            if (s.getStroke().equals(dashed)) {
+                                shapeList.remove(s);
+                                break;
+                            }
+                        }
+                        shapeList.add(selectedShape.drawSelectRectangle());
+                        //shapeList.remove(selectedShape);
+                    }
+                    double width = selectedShape.getWidth();
+                    double height = selectedShape.getHeight();
+                    String type = selectedShape.getType();
+                     MyShape r = null;
+                    if(type == "Rectangle")
+                       r = new Rectangle(0,0,width,height);
+                    if(type == "Square")
+                       r = new Square(0,0,width,height);
+                    if(type == "Circle")
+                       r = new Circle(0,0,width,height);
+                    if(type == "Ellipse")
+                       r = new Ellipse(0,0,width,height);
+                    shapeList.add(r);
+                    repaint();
+                }
+                //if (Paint.selectedBut.equals("paste"))
+                  //  repaint();
                 if (Paint.selectedBut.equals("delete")) {
                     selectedShape = getSelectedShape(startPoint);
                     if (selectedShape != null) {
@@ -175,8 +207,8 @@ public class Canvas extends JComponent {
             // if a shape is not selected, go away, else...
             if (aShape != null) {
                 aShape.setStrokeColor(Paint.strokeColor);
-                aShape.setIndex(nextIndex++);
-                shapeList.add((MyShape) aShape);
+                //aShape.setIndex(nextIndex++);
+                shapeList.add(aShape);
             }
 
             // to avoid drawing extra stuff (will draw the shape once 
@@ -191,7 +223,7 @@ public class Canvas extends JComponent {
             //System.out.println(s.getIndex());
             //System.out.println(Paint.strokeColor.toString());
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            if (s.getStroke().equals(dashed) && !Paint.selectedBut.equals("select") && !Paint.selectedBut.equals("move")) {
+            if (s.getStroke().equals(dashed) && !Paint.selectedBut.equals("select") && !Paint.selectedBut.equals("move") && !Paint.selectedBut.equals("copy")) {
                 sel = s;
                 continue;
             }

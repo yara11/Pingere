@@ -79,5 +79,9 @@ public class Rectangle extends MyShape {
     public Shape getShape() {
         return rectShape;
     }
+    @Override
+    public String getType() {
+        return "Rectangle";
+    }
 
 }

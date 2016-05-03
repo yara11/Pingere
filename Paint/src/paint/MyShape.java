@@ -34,6 +34,7 @@ public abstract class MyShape{
     public abstract void resize(double newWidth, double newHeight);
     public abstract void move(double xDifference, double yDifference);
     //public abstract void delete(Graphics2D g);
+    public abstract String getType();
     
     public abstract Shape getShape();
     public double getWidth(){
