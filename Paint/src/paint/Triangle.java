@@ -19,19 +19,26 @@ import java.awt.geom.Rectangle2D;
 public class Triangle extends MyShape {
 
     protected Polygon triangle = new Polygon();
-    int bottomLeftx, bottomLefty, bottomRightx, bottomRighty, topVertexx, topVertexy;
+    int bottomLeftx, bottomLefty, bottomRightx, bottomRighty, topVertexx, topVertexy, i = 0;
 
     public Triangle(double x1, double y1, double x2, double y2) {
         x = Math.min(x1, x2);
         y = Math.min(y1, y2);
-        bottomLeftx = (int)x1;
-        bottomLefty = (int)y2;
-        bottomRightx = (int)x2;
-        bottomRighty = (int)y2;
-        topVertexx = (int)(x1+x2)/2;
-        topVertexy = (int)y1;
-        
-        
+
+        width = Math.abs(x1 - x2);
+        height = Math.abs(y1 - y2);
+        selectX = x - 10;
+        selectY = y - 10;
+        selectWidth = width + 20;
+        selectHeight = height + 20;
+
+        bottomLeftx = (int) x1;
+        bottomLefty = (int) y2;
+        bottomRightx = (int) x2;
+        bottomRighty = (int) y2;
+        topVertexx = (int) (x1 + x2) / 2;
+        topVertexy = (int) y1;
+
     }
 
     /**
@@ -50,7 +57,7 @@ public class Triangle extends MyShape {
         triangle.addPoint(bottomRightx, bottomRighty);
         triangle.addPoint(topVertexx, topVertexy);
         g.drawPolygon(triangle);
-        
+
         if (this.fill != null) {
             g.setPaint(this.fill);
             g.fill(triangle);
@@ -62,19 +69,79 @@ public class Triangle extends MyShape {
         return "Triangle";
     }
 
+    @Override
     public void color(Graphics2D g, Color newFill) {
-        System.out.println("Color");
+        this.setFillColor(newFill);
+        draw(g);
     }
 
+    @Override
     public void resize(double newWidth, double newHeight) {
-        System.out.println("resize");
+
+        //triangle = new Polygon();
+        //System.out.println("new Width "+newWidth);
+        //System.out.println();
+        width = Math.abs(bottomLeftx - bottomRightx);
+        height = Math.abs(topVertexy - bottomRighty);
+        System.out.println("Before : bottomLeftx " + bottomLeftx + " bottomRightx " + bottomRightx + " topVertexy " + topVertexy);
+        System.out.println();
+        double ratiox = (newWidth / width);
+        double ratioy = (newHeight / height);
+        triangle = new Polygon();
+        System.out.println("Ratiox : " + ratiox + " Ratioy " + ratioy);
+        System.out.println();
+        i++;
+        if (i % 2 == 0) {
+
+            if (ratiox > 1) {
+                bottomLeftx -= newWidth;
+                bottomRightx += newWidth;
+            } else {
+                bottomLeftx += newWidth;
+                bottomRightx -= newWidth;
+            }
+            if (ratioy > 1) {
+                topVertexy += newHeight;
+            } else {
+                topVertexy -= newHeight;
+            }
+
+            System.out.println("After : bottomLeftx " + bottomLeftx + " bottomRightx " + bottomRightx + " topVertexy " + topVertexy);
+            System.out.println();
+            selectX = x - 10;
+            selectY = y - 10;
+            selectWidth = width + 20;
+            selectHeight = height + 20;
+            width = Math.abs(bottomLeftx - bottomRightx);
+            height = Math.abs(topVertexy - bottomRighty);
+
+        }
+
+        //return;
     }
 
     /**
      *
+     * @param xDifference
+     * @param yDifference
      */
+    @Override
     public void move(double xDifference, double yDifference) {
-        System.out.println("move");
+        x += xDifference;
+        y += yDifference;
+
+        triangle = new Polygon();
+        bottomLeftx += xDifference;
+        bottomLefty += yDifference;
+        bottomRightx += xDifference;
+        bottomRighty += yDifference;
+        topVertexx += xDifference;
+        topVertexy += yDifference;
+
+        selectX = x - 10;
+        selectY = y - 10;
+        selectWidth = width + 20;
+        selectHeight = height + 20;
 
     }
 
