@@ -15,35 +15,53 @@ import java.awt.Stroke;
  *
  * @author User
  */
-public abstract class MyShape{
+public abstract class MyShape {
+
     protected double x, y, width, height;
     // index of drawn shape
     private int index;
     // these parameters are used to draw a rectangle around shape when selected
-    protected double selectX, selectY, selectWidth, selectHeight; 
+    protected double selectX, selectY, selectWidth, selectHeight;
     // graphics attributes
     protected Color fill = null, stroke = Color.BLACK;
     //We have option of trasparency or white
     //protected Color newfFill = Color.WHITE;
-    protected Stroke strokeType = new BasicStroke (4);
-    
+    protected Stroke strokeType = new BasicStroke(4);
+
     // functionality methods
-    public abstract void draw(Graphics2D g);
+    public  void draw(Graphics2D g)
+    {
+        System.out.println("g");
+    }
+
     public abstract void color(Graphics2D g, Color newFill);
-    
+
+    //public abstract void rotate(Graphics2D g);
     public abstract void resize(double newWidth, double newHeight);
+
     public abstract void move(double xDifference, double yDifference);
+
     //public abstract void delete(Graphics2D g);
     public abstract String getType();
     
-    public abstract Shape getShape();
-    public double getWidth(){
-        return width;
-    }
-    public double getHeight(){
-        return height;
+    public void rotate(Graphics2D g) {
+        
+        g.translate(100, 100);
+        System.out.println(x+" "+y);
+        g.rotate(Math.toRadians(45));
     }
     
+
+    public abstract Shape getShape();
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
     // getters and setters
     public void setStrokeColor(Color c) {
         stroke = c;
@@ -60,27 +78,27 @@ public abstract class MyShape{
     public Color getFillColor() {
         return fill;
     }
-    
-    public void setIndex(int x){
+
+    public void setIndex(int x) {
         index = x;
     }
-    
-    public int getIndex(){
+
+    public int getIndex() {
         return index;
     }
-    
-    public Stroke getStroke(){
+
+    public Stroke getStroke() {
         return strokeType;
     }
-    
+
     // when shape is selected a red, dashed rectangle is drawn around it
-    public Rectangle drawSelectRectangle(){
-            Rectangle z = new Rectangle(selectX, selectY, selectWidth + selectX, selectHeight + selectY);
-            float dash1[] = {10.0f};
-            BasicStroke dashed = new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-            z.strokeType = dashed;
-            z.stroke = Color.red;
-            return z;
-            
+    public Rectangle drawSelectRectangle() {
+        Rectangle z = new Rectangle(selectX, selectY, selectWidth + selectX, selectHeight + selectY);
+        float dash1[] = {10.0f};
+        BasicStroke dashed = new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
+        z.strokeType = dashed;
+        z.stroke = Color.red;
+        return z;
+
     }
 }

@@ -110,26 +110,40 @@ public class Canvas extends JComponent {
                     double width = selectedShape.getWidth();
                     double height = selectedShape.getHeight();
                     String type = selectedShape.getType();
-                     MyShape r = null;
-                    if(type == "Rectangle")
-                       r = new Rectangle(0,0,width,height);
-                    if(type == "Square")
-                       r = new Square(0,0,width,height);
-                    if(type == "Circle")
-                       r = new Circle(0,0,width,height);
-                    if(type == "Ellipse")
-                       r = new Ellipse(0,0,width,height);
+                    MyShape r = null;
+                    if (type == "Rectangle") {
+                        r = new Rectangle(0, 0, width, height);
+                    }
+                    if (type == "Square") {
+                        r = new Square(0, 0, width, height);
+                    }
+                    if (type == "Circle") {
+                        r = new Circle(0, 0, width, height);
+                    }
+                    if (type == "Ellipse") {
+                        r = new Ellipse(0, 0, width, height);
+                    }
                     shapeList.add(r);
                     repaint();
                 }
                 //if (Paint.selectedBut.equals("paste"))
-                  //  repaint();
+                //  repaint();
                 if (Paint.selectedBut.equals("delete")) {
                     selectedShape = getSelectedShape(startPoint);
                     if (selectedShape != null) {
                         bringFront(selectedShape);
                         shapeList.remove(selectedShape);
                     }
+                    repaint();
+                }
+                if (Paint.selectedBut.equals("rotate")) {
+
+                    Polygon triangle = null;
+                    int xpoints[] = {25, 145, 25, 145, 25};
+                    int ypoints[] = {25, 25, 145, 145, 25};
+                    triangle = new Polygon(xpoints, ypoints, 5);
+                    g2.drawPolygon(triangle);
+                    //shapeList.add((MyShape))
                     repaint();
                 }
                 if (Paint.selectedBut.equals("resize")) {
@@ -207,21 +221,16 @@ public class Canvas extends JComponent {
             // if a shape is not selected, go away, else...
             if (aShape != null) {
                 aShape.setStrokeColor(Paint.strokeColor);
-                //aShape.setIndex(nextIndex++);
                 shapeList.add(aShape);
             }
 
-            // to avoid drawing extra stuff (will draw the shape once 
+            // to avoid drawing extra stuff we will draw the shape once 
             startPoint = endPoint = null;
-
-            //System.out.println(startPoint.x + " " + startPoint.y + " " + endPoint.x + " " + endPoint.y);
         }
         Color tempPaint = (Color) g2.getPaint();
         Stroke tempStroke = g2.getStroke();
         MyShape sel = null;
         for (MyShape s : shapeList) {
-            //System.out.println(s.getIndex());
-            //System.out.println(Paint.strokeColor.toString());
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             if (s.getStroke().equals(dashed) && !Paint.selectedBut.equals("select") && !Paint.selectedBut.equals("move") && !Paint.selectedBut.equals("copy")) {
                 sel = s;

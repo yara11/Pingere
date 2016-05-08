@@ -17,6 +17,7 @@ public class ShapeFactory {
         if(shape.equals("circle"))    return new Circle(x1,y1,x2,y2);
         if(shape.equals("ellipse"))   return new Ellipse(x1,y1,x2,y2);
         if(shape.equals("line"))      return new Line(x1,y1,x2,y2);
+        if(shape.equals("triangle"))  return new Triangle(x1,y1,x2,y2);
         return null;
     }
 }
