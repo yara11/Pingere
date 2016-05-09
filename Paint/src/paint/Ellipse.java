@@ -57,6 +57,19 @@ public class Ellipse extends MyShape {
     }
 
     @Override
+    /*public void rotate(Graphics2D g) {
+        
+        g.translate(100, 100);
+        g.draw(ellipseShape);
+        System.out.println(x+" "+y);
+        if (this.fill != null) {
+            g.setPaint(this.fill);
+            g.fill(ellipseShape);
+        }
+        //g.rotate(Math.toRadians(45));
+        //draw(g);
+    }*/
+
     public void move(double xDifference, double yDifference) {
         x += xDifference;
         y += yDifference;
@@ -71,8 +84,10 @@ public class Ellipse extends MyShape {
     public void color(Graphics2D g, Color newFill) {
         this.setFillColor(newFill);
         draw(g);
+        
     }
-
+    
+    @Override
     public void resize(double newWidth, double newHeight) {
         width = newWidth;
         height = newHeight;
@@ -81,6 +96,7 @@ public class Ellipse extends MyShape {
         selectY = y - 10;
         selectWidth = width + 20;
         selectHeight = height + 20;
+        System.out.println("1");
     }
 
     @Override

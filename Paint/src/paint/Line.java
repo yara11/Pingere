@@ -80,4 +80,14 @@ public class Line extends MyShape {
     public Shape getShape() {
         return rectangularBoundry;
     }
+
+    @Override
+    public void resize(double newWidth, double newHeight) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getType() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

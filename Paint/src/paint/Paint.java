@@ -27,7 +27,7 @@ public class Paint extends JFrame{
     /** Toolbox **/
     JPanel buttonPanel = new JPanel();
     JPanel buttonPanel2 = new JPanel();
-    JButton lineBut, rectBut,squareBut, ellipseBut, circleBut, triBut, fillBut, strokeBut, select, move, resize, delete, fill, copy;// paste;
+    JButton lineBut, rectBut,squareBut, ellipseBut, circleBut, triBut, fillBut, strokeBut, select, move, resize, delete, fill, copy, rotate;
     Box optionBox = Box.createHorizontalBox();
     Box toolBox = Box.createVerticalBox();
     
@@ -110,7 +110,7 @@ public class Paint extends JFrame{
         resize = createButton("./resize.jpg","resize");
         delete = createButton("./delete.png","delete");
         copy =  createButton("./copy.png","copy");
-        //paste =  createButton("./paste.png","paste");
+        rotate = createButton("./rotate.png","rotate");
         
         fillBut.addActionListener(new ActionListener() {
             @Override
@@ -129,7 +129,7 @@ public class Paint extends JFrame{
         toolBox.add(resize);
         toolBox.add(delete);
         toolBox.add(copy);
-        //toolBox.add(paste);
+        toolBox.add(rotate);
     }
     public static void main(String[] args) {
         

@@ -38,6 +38,10 @@ public class Triangle extends MyShape {
         bottomRighty = (int) y2;
         topVertexx = (int) (x1 + x2) / 2;
         topVertexy = (int) y1;
+        
+        triangle.addPoint(bottomLeftx, bottomLefty);
+        triangle.addPoint(bottomRightx, bottomRighty);
+        triangle.addPoint(topVertexx, topVertexy);
 
     }
 
@@ -53,9 +57,7 @@ public class Triangle extends MyShape {
         g.setStroke(this.strokeType);
         g.setPaint(this.stroke);
         System.out.println(bottomLefty);
-        triangle.addPoint(bottomLeftx, bottomLefty);
-        triangle.addPoint(bottomRightx, bottomRighty);
-        triangle.addPoint(topVertexx, topVertexy);
+
         g.drawPolygon(triangle);
 
         if (this.fill != null) {
@@ -94,29 +96,39 @@ public class Triangle extends MyShape {
         if (i % 2 == 0) {
 
             if (ratiox > 1) {
-                bottomLeftx -= newWidth;
-                bottomRightx += newWidth;
+                bottomLeftx -= Math.abs(width - newWidth) / 2;
+                bottomRightx += Math.abs(width - newWidth) / 2;
+            } else if (ratiox < 1) {
+                bottomLeftx += Math.abs(width - newWidth) / 2;
+                bottomRightx -= Math.abs(width - newWidth) / 2;
             } else {
-                bottomLeftx += newWidth;
-                bottomRightx -= newWidth;
+                bottomLeftx = bottomLeftx;
+                bottomRightx = bottomRightx;
             }
-            if (ratioy > 1) {
-                topVertexy += newHeight;
+
+            if (ratioy < 1) {
+                topVertexy += Math.abs(height - newHeight);
+            } else if (ratioy > 1) {
+                topVertexy -= Math.abs(height - newHeight);
             } else {
-                topVertexy -= newHeight;
+                topVertexy = topVertexy;
             }
 
             System.out.println("After : bottomLeftx " + bottomLeftx + " bottomRightx " + bottomRightx + " topVertexy " + topVertexy);
             System.out.println();
+            x = bottomLeftx;
+            y = topVertexy;
             selectX = x - 10;
             selectY = y - 10;
             selectWidth = width + 20;
             selectHeight = height + 20;
             width = Math.abs(bottomLeftx - bottomRightx);
             height = Math.abs(topVertexy - bottomRighty);
+            triangle.addPoint(bottomLeftx, bottomLefty);
+            triangle.addPoint(bottomRightx, bottomRighty);
+            triangle.addPoint(topVertexx, topVertexy);
 
         }
-
         //return;
     }
 
@@ -127,9 +139,6 @@ public class Triangle extends MyShape {
      */
     @Override
     public void move(double xDifference, double yDifference) {
-        x += xDifference;
-        y += yDifference;
-
         triangle = new Polygon();
         bottomLeftx += xDifference;
         bottomLefty += yDifference;
@@ -138,10 +147,16 @@ public class Triangle extends MyShape {
         topVertexx += xDifference;
         topVertexy += yDifference;
 
+        x = bottomLeftx;
+        y = topVertexy;
         selectX = x - 10;
         selectY = y - 10;
         selectWidth = width + 20;
         selectHeight = height + 20;
+        
+        triangle.addPoint(bottomLeftx, bottomLefty);
+        triangle.addPoint(bottomRightx, bottomRighty);
+        triangle.addPoint(topVertexx, topVertexy);
 
     }
 

@@ -123,6 +123,10 @@ public class Canvas extends JComponent {
                     if (type == "Ellipse") {
                         r = new Ellipse(0, 0, width, height);
                     }
+                    if (type == "Triangle") {
+                        r = new Triangle(0, 0, width, height);
+                    }
+                    
                     shapeList.add(r);
                     repaint();
                 }
@@ -164,7 +168,6 @@ public class Canvas extends JComponent {
                         r.flag = true;
                     }*/
                     //repaint();
-
                 }
 
             }
