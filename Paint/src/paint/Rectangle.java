@@ -34,7 +34,7 @@ public class Rectangle extends MyShape {
         selectWidth = width + 20;
         selectHeight = height + 20;
     }
-
+    public Rectangle(){}
     /**
      * Operations *
      */

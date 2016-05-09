@@ -45,6 +45,7 @@ public class Triangle extends MyShape {
 
     }
 
+    public Triangle(){}
     /**
      * Operations
      *

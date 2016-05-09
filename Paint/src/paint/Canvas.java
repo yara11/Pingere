@@ -27,7 +27,9 @@ import paint.Resize;
 public class Canvas extends JComponent {
 
     // Tracking each shape in the project
-    ArrayList<MyShape> shapeList = new ArrayList<MyShape>();
+    //ArrayList<MyShape> shapeList = new ArrayList<MyShape>();
+    ShapeContainer shapes = new ShapeContainer();
+    private static Canvas instance = new Canvas();
 
     // To find the coordinates of the mouse from the begining and endng of the dragging
     Point startPoint, endPoint, endPointMove;
@@ -52,17 +54,11 @@ public class Canvas extends JComponent {
                 if (Paint.selectedBut.equals("select")) {
                     selectedShape = getSelectedShape(startPoint);
                     if (selectedShape != null) {
-                        bringFront(selectedShape);
+                        shapes.bringFront(selectedShape);
                         // Unselect already selected shape, if any:
                         // Remove the dashed rectangle from shapeList
-                        for (MyShape s : shapeList) {
-                            if (s.getStroke().equals(dashed)) {
-                                shapeList.remove(s);
-                                break;
-                            }
-                        }
-
-                        shapeList.add(selectedShape.drawSelectRectangle());
+                        shapes.removeStrokedShape();
+                        shapes.shapeList.add(selectedShape.drawSelectRectangle());
                         repaint();
                     }
                 }
@@ -75,68 +71,37 @@ public class Canvas extends JComponent {
                         repaint();
                     }
                 }
+
                 if (Paint.selectedBut.equals("move")) {
                     selectedShape = getSelectedShape(startPoint);
                     if (selectedShape != null) {
-                        bringFront(selectedShape);
+                        shapes.bringFront(selectedShape);
                         // Unselect already selected shape, if any:
                         // Remove the dashed rectangle from shapeList
-                        for (MyShape s : shapeList) {
-                            if (s.getStroke().equals(dashed)) {
-                                shapeList.remove(s);
-                                break;
-                            }
-                        }
 
-                        shapeList.add(selectedShape.drawSelectRectangle());
+                        shapes.removeStrokedShape();
+                        shapes.shapeList.add(selectedShape.drawSelectRectangle());
                         repaint();
                     }
                 }
                 if (Paint.selectedBut.equals("copy")) {
                     selectedShape = getSelectedShape(startPoint);
                     if (selectedShape != null) {
-                        bringFront(selectedShape);
+                        shapes.bringFront(selectedShape);
+
                         // Unselect already selected shape, if any:
                         // Remove the dashed rectangle from shapeList
-                        for (MyShape s : shapeList) {
-                            if (s.getStroke().equals(dashed)) {
-                                shapeList.remove(s);
-                                break;
-                            }
-                        }
-                        shapeList.add(selectedShape.drawSelectRectangle());
-                        //shapeList.remove(selectedShape);
+                        shapes.removeStrokedShape();
                     }
-                    double width = selectedShape.getWidth();
-                    double height = selectedShape.getHeight();
-                    String type = selectedShape.getType();
-                    MyShape r = null;
-                    if (type == "Rectangle") {
-                        r = new Rectangle(0, 0, width, height);
-                    }
-                    if (type == "Square") {
-                        r = new Square(0, 0, width, height);
-                    }
-                    if (type == "Circle") {
-                        r = new Circle(0, 0, width, height);
-                    }
-                    if (type == "Ellipse") {
-                        r = new Ellipse(0, 0, width, height);
-                    }
-                    if (type == "Triangle") {
-                        r = new Triangle(0, 0, width, height);
-                    }
-                    
-                    shapeList.add(r);
+                    MyShape shapeClone = selectedShape.copy(selectedShape);
+                    shapes.shapeList.add(shapeClone);
                     repaint();
                 }
-                //if (Paint.selectedBut.equals("paste"))
-                //  repaint();
                 if (Paint.selectedBut.equals("delete")) {
                     selectedShape = getSelectedShape(startPoint);
                     if (selectedShape != null) {
-                        bringFront(selectedShape);
-                        shapeList.remove(selectedShape);
+                        shapes.bringFront(selectedShape);
+                        shapes.shapeList.remove(selectedShape);
                     }
                     repaint();
                 }
@@ -178,14 +143,8 @@ public class Canvas extends JComponent {
                 endPoint = e.getPoint();
                 if (Paint.selectedBut.equals("move") && selectedShape != null) {
                     selectedShape.move(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
-                    //System.out.println((endPoint.x - startPoint.x) + " " + (endPoint.y - startPoint.y));
-                    for (MyShape s : shapeList) {
-                        if (s.getStroke().equals(dashed)) {
-                            shapeList.remove(s);
-                            break;
-                        }
-                    }
-                    shapeList.add(selectedShape.drawSelectRectangle());
+                    shapes.removeStrokedShape();
+                    shapes.shapeList.add(selectedShape.drawSelectRectangle());
                     repaint();
                 }
                 if (!isShape(Paint.selectedBut)) {
@@ -210,21 +169,28 @@ public class Canvas extends JComponent {
         });*/
     }
 
+    // Singleton design
+    public static Canvas getInstance() {
+        if (instance == null) {
+            instance = new Canvas();
+        }
+        return instance;
+    }
+
     // Overriden paint() method from JComponent
     @Override
     public void paint(Graphics g) {
         g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(4));
         if (startPoint != null && endPoint != null) {
-
             // Create new shape from the shape factory
-            ShapeFactory sf = new ShapeFactory();
+            ShapeCache sf = new ShapeCache();
             MyShape aShape = sf.getShape(Paint.selectedBut, startPoint.x, startPoint.y, endPoint.x, endPoint.y);
 
             // if a shape is not selected, go away, else...
             if (aShape != null) {
                 aShape.setStrokeColor(Paint.strokeColor);
-                shapeList.add(aShape);
+                shapes.shapeList.add(aShape);
             }
 
             // to avoid drawing extra stuff we will draw the shape once 
@@ -233,7 +199,8 @@ public class Canvas extends JComponent {
         Color tempPaint = (Color) g2.getPaint();
         Stroke tempStroke = g2.getStroke();
         MyShape sel = null;
-        for (MyShape s : shapeList) {
+        for (Iterator it = shapes.getIterator(); it.hasNext();) {
+            MyShape s = (MyShape) it.next();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             if (s.getStroke().equals(dashed) && !Paint.selectedBut.equals("select") && !Paint.selectedBut.equals("move") && !Paint.selectedBut.equals("copy")) {
                 sel = s;
@@ -242,7 +209,7 @@ public class Canvas extends JComponent {
             s.draw(g2);
             //g2.setPaint(s.getFillColor());
         }
-        shapeList.remove(sel);
+        shapes.shapeList.remove(sel);
 
         // Because the draw(g2) methods will change the paint and stroke into the shape's fill & stroke colors
         g2.setPaint(tempPaint);
@@ -259,7 +226,8 @@ public class Canvas extends JComponent {
     MyShape getSelectedShape(Point p) {
         int greatestInd = -1;
         MyShape ret = null;
-        for (MyShape sh : shapeList) {
+        for (Iterator it = shapes.getIterator(); it.hasNext();) {
+            MyShape sh = (MyShape) it.next();
             if (sh.getShape().contains(p) && sh.getIndex() > greatestInd) {
                 if (sh.getStroke().equals(dashed)) {
                     continue;
@@ -271,15 +239,5 @@ public class Canvas extends JComponent {
         return ret;
     }
 
-    void bringFront(MyShape k) {
-        shapeList.remove(k);//remove the shape in the back
-        //k.setIndex(nextIndex++);
-        shapeList.add(k);//then added again so that it is the newest shape in the ArrayList
-    }
 
-    //So wrong
-    /*public static void repaintOutside(){
-        Canvas n = new Canvas();
-        n.repaint();
-    }*/
 }

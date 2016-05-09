@@ -34,7 +34,7 @@ public class Ellipse extends MyShape {
         selectWidth = width + 20;
         selectHeight = height + 20;
     }
-
+    public Ellipse(){}
     public String getType() {
         return "Ellipse";
     }

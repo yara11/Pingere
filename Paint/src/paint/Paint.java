@@ -53,7 +53,8 @@ public class Paint extends JFrame{
         // We used the pannel to set its positions in the drawing area
         this.add(buttonPanel,BorderLayout.PAGE_START);
         this.add(buttonPanel2,BorderLayout.WEST);
-        this.add(new Canvas());
+        Canvas canvas = Canvas.getInstance();
+        this.add(canvas);
         this.setVisible(true);// Set its visibilty to true
         
     }

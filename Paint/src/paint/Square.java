@@ -23,6 +23,8 @@ public class Square extends Rectangle{
         selectX = x - 10; selectY = y - 10; selectWidth = width + 20; selectHeight = height + 20;
     }
     
+    public Square(){}
+    
     @Override
     public void resize(double newWidth, double newHeight){
         super.resize(Math.min(newWidth, newHeight),Math.min(newWidth, newHeight));

@@ -9,7 +9,7 @@ package paint;
  *
  * @author User
  */
-public class ShapeFactory {
+public class ShapeCache {
     public MyShape getShape(String shape,double x1,double y1,double x2,double y2){
         //if(shape.equalsIgnoreCase("triangle"))  return new Triangle();
         if(shape.equals("rectangle")) return new Rectangle(x1,y1,x2,y2);

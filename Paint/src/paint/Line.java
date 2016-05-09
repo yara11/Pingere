@@ -37,7 +37,9 @@ public class Line extends MyShape {
         selectHeight = Math.abs(y1 - y2);
         rectangularBoundry = new Rectangle2D.Double(Math.min(x1,x2), Math.min(y1,y2), Math.abs(x1-x2), Math.abs(y1-y2));
     }
-
+    
+    public Line(){}
+    
     /**
      * Operations *
      */

@@ -15,7 +15,7 @@ import java.awt.Stroke;
  *
  * @author User
  */
-public abstract class MyShape {
+public abstract class MyShape implements Cloneable {
 
     protected double x, y, width, height;
     // index of drawn shape
@@ -29,8 +29,7 @@ public abstract class MyShape {
     protected Stroke strokeType = new BasicStroke(4);
 
     // functionality methods
-    public  void draw(Graphics2D g)
-    {
+    public void draw(Graphics2D g) {
         System.out.println("g");
     }
 
@@ -43,14 +42,13 @@ public abstract class MyShape {
 
     //public abstract void delete(Graphics2D g);
     public abstract String getType();
-    
+
     public void rotate(Graphics2D g) {
-        
+
         g.translate(100, 100);
-        System.out.println(x+" "+y);
+        System.out.println(x + " " + y);
         g.rotate(Math.toRadians(45));
     }
-    
 
     public abstract Shape getShape();
 
@@ -78,7 +76,10 @@ public abstract class MyShape {
     public Color getFillColor() {
         return fill;
     }
-
+    public MyShape copy(MyShape selectedShape){
+        MyShape temp = (MyShape)selectedShape.clone();
+        return temp;
+    }
     public void setIndex(int x) {
         index = x;
     }
@@ -100,5 +101,18 @@ public abstract class MyShape {
         z.stroke = Color.red;
         return z;
 
+    }
+    //2nd Prototype design pattern
+    public Object clone() {
+        Object clone = null;
+
+        try {
+            clone = super.clone();
+
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+
+        return clone;
     }
 }
