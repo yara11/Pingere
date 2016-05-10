@@ -6,6 +6,7 @@
 package paint;
 
 import java.awt.event.ActionListener;
+import static paint.Canvas.selectedShape;
 
 /**
  *
@@ -28,12 +29,12 @@ public class Resize extends javax.swing.JFrame {
     public double getH() {
         return newH;
     }
-    
-    public void addButtonAL(ActionListener AL){
+
+    public void addButtonAL(ActionListener AL) {
         jButton1.addActionListener(AL);
     }
-    
-    public Resize() {
+
+    public Resize(String shapeType) {
         //flag = false;
         initComponents();
         setVisible(true);
@@ -41,7 +42,11 @@ public class Resize extends javax.swing.JFrame {
         double h = Canvas.selectedShape.getHeight();
         jTextField1.setText(Double.toString(w));
         jTextField2.setText(Double.toString(h));
-        System.out.println("Old dimensions: "+w+" "+h);
+        if (shapeType.equals("Line")) {
+            jTextField2.setEditable(false);
+        }
+
+        System.out.println("Old dimensions: " + w + " " + h);
         /*jButton1.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) { // TODO add your handling code here:
@@ -54,7 +59,7 @@ public class Resize extends javax.swing.JFrame {
                 repaint();
                 //flag = true;
                 setVisible(false);*/
-            //}
+        //}
         //});*/
     }
 
@@ -76,9 +81,9 @@ public class Resize extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Horizontal");
+        jLabel1.setText("Length");
 
-        jLabel2.setText("Vertical");
+        jLabel2.setText("Height");
 
         jTextField1.setText("jTextField1");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -140,7 +145,7 @@ public class Resize extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 157, Short.MAX_VALUE))
+                .addGap(0, 172, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,8 +203,9 @@ public class Resize extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new Resize().setVisible(true);
+                new Resize(selectedShape.getType()).setVisible(true);
             }
         });
     }

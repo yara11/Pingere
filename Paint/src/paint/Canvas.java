@@ -107,17 +107,11 @@ public class Canvas extends JComponent {
                 }
                 if (Paint.selectedBut.equals("rotate")) {
 
-                    Polygon triangle = null;
-                    int xpoints[] = {25, 145, 25, 145, 25};
-                    int ypoints[] = {25, 25, 145, 145, 25};
-                    triangle = new Polygon(xpoints, ypoints, 5);
-                    g2.drawPolygon(triangle);
-                    //shapeList.add((MyShape))
-                    repaint();
+                    /*ToDo*/
                 }
-                if (Paint.selectedBut.equals("resize")) {
+                if (Paint.selectedBut.equals("resize") && selectedShape != null) {
                     selectedShape = getSelectedShape(startPoint);
-                    Resize r = new Resize();
+                    Resize r = new Resize(selectedShape.getType());
                     System.out.println(r.getW() + " the dimensions " + r.getH());
                     ActionListener AL = new ActionListener() {
                         @Override
@@ -238,6 +232,5 @@ public class Canvas extends JComponent {
         }
         return ret;
     }
-
 
 }
