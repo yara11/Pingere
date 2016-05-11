@@ -7,10 +7,8 @@ package paint;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Line2D;
 import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;

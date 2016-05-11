@@ -6,7 +6,6 @@
 package paint;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
@@ -32,12 +31,7 @@ public class Line extends MyShape {
         this.y2 = y2;
         width = Math.sqrt((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1));
         height = 0;
-        lineShape = new Line2D.Double(x1, y1, x2, y2);
-        selectX = Math.min(x1, x2);
-        selectY = Math.min(y1, y2);
-        selectWidth = Math.abs(x1 - x2);
-        selectHeight = Math.abs(y1 - y2);
-        rectangularBoundry = new Rectangle2D.Double(Math.min(x1,x2), Math.min(y1,y2), Math.abs(x1-x2), Math.abs(y1-y2));
+        setShape();
     }
     
     public Line(){}
@@ -53,49 +47,51 @@ public class Line extends MyShape {
         System.out.println("Drawing Line");
     }
 
+    @Override
+    public void color(Color newFill) {
+        // do nothing here.
+    }
+    
     public void move(double xDifference, double yDifference) {
         x1 += xDifference;
         y1 += yDifference;
         x2 += xDifference;
         y2 += yDifference;
         width = Math.sqrt((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1));
-        lineShape = new Line2D.Double(x1, y1, x2, y2);
-        selectX = Math.min(x1, x2);
-        selectY = Math.min(y1, y2);
-        selectWidth = Math.abs(x1 - x2);
-        selectHeight = Math.abs(y1 - y2);
-        rectangularBoundry = new Rectangle2D.Double(Math.min(x1,x2), Math.min(y1,y2), Math.abs(x1-x2), Math.abs(y1-y2));
+        setShape();
     }
-    
     
     @Override
-    public void color(Graphics2D g, Color newFill) {
-        // do nothing here.
+    public void resize(double newWidth, double newHeight) {
+        System.out.println("Resize called");
+        double newLength = newWidth;
+        double oldLength = Math.sqrt((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1));
+        System.out.println("Old coordinates: (" + x1 + ", " + y1 +") (" + x2 + ", " + y2 + ")");
+        x2  = (newLength / oldLength) * (x2 - x1) + x1;
+        y2  = (newLength / oldLength) * (y2 - y1) + y1;
+        System.out.println("New coordinates: (" + x1 + ", " + y1 +") (" + x2 + ", " + y2 + ")");
+        width = newLength;
+        setShape();
     }
 
+    
+    protected void setShape(){
+        lineShape = new Line2D.Double(x1, y1, x2, y2);
+        selectX = Math.min(x1, x2) - 5;
+        selectY = Math.min(y1, y2) - 5;
+        selectWidth = Math.abs(x1 - x2) + 10;
+        selectHeight = Math.abs(y1 - y2) + 10;
+        rectangularBoundry = new Rectangle2D.Double(selectX, selectY, selectWidth, selectHeight);
+    }
+    
     @Override
     public Shape getShape() {
         return rectangularBoundry;
     }
-
-    @Override
-    public void resize(double newWidth, double newHeight) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        double newLength = newWidth;
-        double oldLength = Math.sqrt((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1));
-        x2  = (newLength / oldLength) * (x2 - x1) + x1;
-        y2  = (newLength / oldLength) * (y2 - y1) + y1;
-        lineShape = new Line2D.Double(x1, y1, x2, y2);
-        width = newLength;
-        selectX = Math.min(x1, x2);
-        selectY = Math.min(y1, y2);
-        selectWidth = Math.abs(x1 - x2);
-        selectHeight = Math.abs(y1 - y2);
-        rectangularBoundry = new Rectangle2D.Double(Math.min(x1,x2), Math.min(y1,y2), Math.abs(x1-x2), Math.abs(y1-y2));
-    }
-
+    
     @Override
     public String getType() {
         return "Line";
     }
+    
 }

@@ -27,7 +27,10 @@ public class Square extends Rectangle{
     
     @Override
     public void resize(double newWidth, double newHeight){
-        super.resize(Math.min(newWidth, newHeight),Math.min(newWidth, newHeight));
+        if(newWidth != width)
+            super.resize(newWidth, newWidth);
+        else
+            super.resize(newHeight, newHeight);
     }
     @Override
     public String getType() {

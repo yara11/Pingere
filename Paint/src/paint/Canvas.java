@@ -67,7 +67,7 @@ public class Canvas extends JComponent {
                     selectedShape = getSelectedShape(startPoint);
                     // User didn't press an empty space
                     if (selectedShape != null) {
-                        selectedShape.color(g2, Paint.fillColor);
+                        selectedShape.color(Paint.fillColor);
                         repaint();
                     }
                 }
@@ -86,14 +86,15 @@ public class Canvas extends JComponent {
                 }
                 if (Paint.selectedBut.equals("copy")) {
                     selectedShape = getSelectedShape(startPoint);
-                    if (selectedShape != null) {
-                        shapes.bringFront(selectedShape);
-
-                        // Unselect already selected shape, if any:
-                        // Remove the dashed rectangle from shapeList
-                        shapes.removeStrokedShape();
+                    if (selectedShape == null) {
+                        return;
                     }
-                    MyShape shapeClone = selectedShape.copy(selectedShape);
+                    shapes.bringFront(selectedShape);
+                    // Unselect already selected shape, if any:
+                    // Remove the dashed rectangle from shapeList
+                    shapes.removeStrokedShape();
+
+                    MyShape shapeClone = selectedShape.copy();
                     shapes.shapeList.add(shapeClone);
                     repaint();
                 }
@@ -109,24 +110,21 @@ public class Canvas extends JComponent {
 
                     /*ToDo*/
                 }
-                if (Paint.selectedBut.equals("resize") && selectedShape != null) {
+                if (Paint.selectedBut.equals("resize")) {
                     selectedShape = getSelectedShape(startPoint);
+                    if (selectedShape == null) {
+                        return;
+                    }
                     Resize r = new Resize(selectedShape.getType());
                     System.out.println(r.getW() + " the dimensions " + r.getH());
                     ActionListener AL = new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            selectedShape.resize(r.getW(), r.getH());
+                            //selectedShape.resize(r.getW(), r.getH());
                             repaint();
                         }
                     };
                     r.addButtonAL(AL);
-                    /*if (r.flag) {
-                        selectedShape.resize(r.getW(), r.getH());
-                        repaint();
-                        r.flag = true;
-                    }*/
-                    //repaint();
                 }
 
             }
@@ -151,16 +149,6 @@ public class Canvas extends JComponent {
             }
 
         });
-        /*this.addMouseMotionListener(new MouseMotionAdapter() {
-//            MyShape aShape = null;
-            public void mouseMoved(MouseEvent e) {
-                endPoint = e.getPoint();
-            }
-
-            public void mouseDragged(MouseEvent e) {
-                endPoint = e.getPoint();
-            }
-        });*/
     }
 
     // Singleton design
@@ -201,7 +189,6 @@ public class Canvas extends JComponent {
                 continue;
             }
             s.draw(g2);
-            //g2.setPaint(s.getFillColor());
         }
         shapes.shapeList.remove(sel);
 
@@ -218,16 +205,14 @@ public class Canvas extends JComponent {
 
     // We could get rid of the index parameter at this point ... But might need it for later.
     MyShape getSelectedShape(Point p) {
-        int greatestInd = -1;
         MyShape ret = null;
         for (Iterator it = shapes.getIterator(); it.hasNext();) {
             MyShape sh = (MyShape) it.next();
-            if (sh.getShape().contains(p) && sh.getIndex() > greatestInd) {
+            if (sh.getShape().contains(p)) {
                 if (sh.getStroke().equals(dashed)) {
                     continue;
                 }
                 ret = sh;
-                greatestInd = sh.getIndex();
             }
         }
         return ret;

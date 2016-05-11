@@ -47,20 +47,6 @@ public class Resize extends javax.swing.JFrame {
         }
 
         System.out.println("Old dimensions: " + w + " " + h);
-        /*jButton1.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) { // TODO add your handling code here:
-                /*newWidthString = jTextField1.getText();
-                newHeightString = jTextField2.getText();
-                newW = Double.parseDouble(newWidthString);
-                newH = Double.parseDouble(newHeightString);
-                System.out.println(newWidthString + " " + newHeightString);
-                Canvas.selectedShape.resize(newH, newW);
-                repaint();
-                //flag = true;
-                setVisible(false);*/
-        //}
-        //});*/
     }
 
     /**

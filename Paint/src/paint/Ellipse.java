@@ -23,22 +23,17 @@ public class Ellipse extends MyShape {
     /**
      * Constructors *
      */
+    
     public Ellipse(double x1, double y1, double x2, double y2) {
         x = Math.min(x1, x2);
         y = Math.min(y1, y2);
         width = Math.abs(x1 - x2);
         height = Math.abs(y1 - y2);
-        ellipseShape = new Ellipse2D.Double(x, y, width, height);
-        selectX = x - 10;
-        selectY = y - 10;
-        selectWidth = width + 20;
-        selectHeight = height + 20;
+        setShape();
     }
+    
     public Ellipse(){}
-    public String getType() {
-        return "Ellipse";
-    }
-
+    
     /**
      * Operations
      *
@@ -57,6 +52,24 @@ public class Ellipse extends MyShape {
     }
 
     @Override
+    public void color(Color newFill) {
+        this.setFillColor(newFill);
+    }
+
+    public void move(double xDifference, double yDifference) {
+        x += xDifference;
+        y += yDifference;
+        setShape();
+    }
+    
+    @Override
+    public void resize(double newWidth, double newHeight) {
+        width = newWidth;
+        height = newHeight;
+        setShape();
+    }
+
+    
     /*public void rotate(Graphics2D g) {
         
         g.translate(100, 100);
@@ -69,38 +82,22 @@ public class Ellipse extends MyShape {
         //g.rotate(Math.toRadians(45));
         //draw(g);
     }*/
-
-    public void move(double xDifference, double yDifference) {
-        x += xDifference;
-        y += yDifference;
-        ellipseShape = new Ellipse2D.Double(x, y, width, height);
-        selectX = x - 10;
-        selectY = y - 10;
-        selectWidth = width + 20;
-        selectHeight = height + 20;
-    }
-
-    @Override
-    public void color(Graphics2D g, Color newFill) {
-        this.setFillColor(newFill);
-        draw(g);
-        
-    }
     
-    @Override
-    public void resize(double newWidth, double newHeight) {
-        width = newWidth;
-        height = newHeight;
+    protected void setShape(){
         ellipseShape = new Ellipse2D.Double(x, y, width, height);
         selectX = x - 10;
         selectY = y - 10;
         selectWidth = width + 20;
         selectHeight = height + 20;
-        System.out.println("1");
     }
 
     @Override
     public Shape getShape() {
         return ellipseShape;
     }
+    
+    public String getType() {
+        return "Ellipse";
+    }
+
 }
