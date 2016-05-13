@@ -12,25 +12,26 @@ import java.util.ArrayList;
  *
  * @author Krietallo
  */
-public class ShapeContainer implements Container{
+public class ShapeContainer implements Container {
+
     float dash1[] = {10.0f};
     BasicStroke dashed = new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
 
     ArrayList<MyShape> shapeList = new ArrayList<MyShape>();
-    
+
     @Override
-   public Iterator getIterator() {
-      return new ShapeIterator();
-   }
-   
-   void addShape(MyShape s){
-       shapeList.add(s);
-   }
-   
-   void removeShape(MyShape s){
-       shapeList.remove(s);
-   }
-   
+    public Iterator getIterator() {
+        return new ShapeIterator();
+    }
+
+    void addShape(MyShape s) {
+        shapeList.add(s);
+    }
+
+    void removeShape(MyShape s) {
+        shapeList.remove(s);
+    }
+
     void bringFront(MyShape k) {
         shapeList.remove(k);//remove the shape in the back
         shapeList.add(k);//then added again so that it is the newest shape in the ArrayList
@@ -45,21 +46,62 @@ public class ShapeContainer implements Container{
             }
         }
     }
-   
-   
-   private class ShapeIterator implements Iterator{
-       int index = 0;
-       
-       @Override
-       public boolean hasNext(){
-           return index < shapeList.size();
-       }
-       
-       @Override
-       public MyShape next(){
-           if(this.hasNext())
-               return shapeList.get(index++);
-           return null;
-       }
-   }
+
+    private class ShapeIterator implements Iterator {
+
+        int index = 0;
+
+        @Override
+        public boolean hasNext() {
+            return index < shapeList.size();
+        }
+
+        @Override
+        public MyShape next() {
+            if (this.hasNext()) {
+                return shapeList.get(index++);
+            }
+            return null;
+        }
+    }
+
+    // MEMENTO DESIGN PATTERN IMPLEMENTATION 
+    public void setState(ArrayList<MyShape> newState) {
+        // Shallow copy
+        shapeList = newState;
+        // Deep copy
+        /*shapeList = new ArrayList<MyShape>();
+        for (MyShape shape : newState) {
+            shapeList.add((MyShape)shape.clone());
+        }*/
+    }
+    
+    public ArrayList<MyShape> getState(){
+        return shapeList;
+    }
+    
+    public Memento saveStateToMemento(){
+        return new Memento(shapeList);
+    }
+    
+    public void getStateFromMemento(Memento memento){
+        shapeList = memento.getState();
+    }
+    
+    public class Memento {
+
+        private ArrayList<MyShape> state;
+
+        public Memento(ArrayList<MyShape> newState) {
+            // Deep copy
+            state = new ArrayList<MyShape>();
+            for (MyShape shape : newState) {
+                state.add((MyShape)shape.clone());
+            }
+        }
+
+        public ArrayList<MyShape> getState() {
+            return state;
+        }
+    }
 }

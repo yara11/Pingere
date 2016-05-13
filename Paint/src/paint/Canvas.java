@@ -10,14 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import javax.swing.JColorChooser;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
-import paint.Resize;
 
 /**
  *
@@ -29,6 +22,7 @@ public class Canvas extends JComponent {
     // Tracking each shape in the project
     //ArrayList<MyShape> shapeList = new ArrayList<MyShape>();
     ShapeContainer shapes = new ShapeContainer();
+    CareTaker careTaker = new CareTaker();
     private static Canvas instance = new Canvas();
 
     // To find the coordinates of the mouse from the begining and endng of the dragging
@@ -131,7 +125,7 @@ public class Canvas extends JComponent {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                // I need the start and end point only if I am drawing a shape
+                // We need the start and end point only if we are drawing a shape
                 endPoint = e.getPoint();
                 if (Paint.selectedBut.equals("move") && selectedShape != null) {
                     selectedShape.move(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
@@ -217,5 +211,4 @@ public class Canvas extends JComponent {
         }
         return ret;
     }
-
 }

@@ -21,47 +21,55 @@ import javax.swing.JPanel;
  *
  * @author User
  */
-public class Paint extends JFrame{
-    /** Toolbox **/
+public class Paint extends JFrame {
+
+    /**
+     * Toolbox *
+     */
     JPanel buttonPanel = new JPanel();
     JPanel buttonPanel2 = new JPanel();
-    JButton lineBut, rectBut,squareBut, ellipseBut, circleBut, triBut, fillBut, strokeBut, select, move, resize, delete, fill, copy, rotate;
+    JButton lineBut, rectBut, squareBut, ellipseBut, circleBut, triBut, fillBut, strokeBut, select, move, resize, delete, fill, copy, rotate, undo, redo;
     Box optionBox = Box.createHorizontalBox();
     Box toolBox = Box.createVerticalBox();
-    
-    /**  **/
-    
+
+    /**
+     * *
+     */
     public static String selectedBut = null;
     public static Color strokeColor = Color.BLACK;
     public static Color fillColor = Color.WHITE;
-    
-    public Paint(){
+
+    public Paint() {
         // Set environment
         this.setSize(800, 600);//set size
         this.setTitle("Java Paint");//set name
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setBackground(Color.white);//set background color
-        
+
         // Set toolboxes
         createOptionBox();// Where all the buttons are created
         createToolBox();
         buttonPanel.add(optionBox);//where all the buttons are set inside and added to the pannel
         buttonPanel2.add(toolBox);
-        
+
         // We used the pannel to set its positions in the drawing area
-        this.add(buttonPanel,BorderLayout.PAGE_START);
-        this.add(buttonPanel2,BorderLayout.WEST);
+        this.add(buttonPanel, BorderLayout.PAGE_START);
+        this.add(buttonPanel2, BorderLayout.WEST);
         Canvas canvas = Canvas.getInstance();
         this.add(canvas);
         this.setVisible(true);// Set its visibilty to true
-        
+
     }
- 
+
     // Creates new button with given icon and name
     public JButton createButton(String imgPath, String name) {
         JButton ret = new JButton();//Creating JButton
-        Icon i = new ImageIcon(imgPath);
-        ret.setIcon(i);//Setting it to the images placed in a certaing path (the project's source)
+        if (imgPath != "") {
+            Icon i = new ImageIcon(imgPath);
+            ret.setIcon(i);//Setting it to the images placed in a certaing path (the project's source)
+        } else {
+            ret = new JButton(name);
+        }
         ret.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,19 +88,20 @@ public class Paint extends JFrame{
         ellipseBut = createButton("./ellipse.png", "ellipse");
         circleBut = createButton("./circle.png", "circle");
         triBut = createButton("./tri.png", "triangle");
-        strokeBut = createButton("./pen.png","stroke");
-        
+        strokeBut = createButton("./pen.png", "stroke");
+
         strokeBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // JColorChooser is a popup that lets you pick a color
                 Color temp = JColorChooser.showDialog(null, "Pick stroke color", Color.BLACK);
-                if(temp != null)    
+                if (temp != null) {
                     strokeColor = temp;
+                }
                 System.out.println(strokeColor.toString());
             }
         });
-        
+
         optionBox.add(lineBut);
         optionBox.add(rectBut);
         optionBox.add(squareBut);
@@ -101,27 +110,30 @@ public class Paint extends JFrame{
         optionBox.add(triBut);
         optionBox.add(strokeBut);
     }
-    
-    public void createToolBox(){
-        select = createButton("./select.png","select");
-        fillBut = createButton("./fill.png","fill");
-        move = createButton("./move.png","move");
-        resize = createButton("./resize.jpg","resize");
-        delete = createButton("./delete.png","delete");
-        copy =  createButton("./copy.png","copy");
-        rotate = createButton("./rotate.png","rotate");
-        
+
+    public void createToolBox() {
+        select = createButton("./select.png", "select");
+        fillBut = createButton("./fill.png", "fill");
+        move = createButton("./move.png", "move");
+        resize = createButton("./resize.jpg", "resize");
+        delete = createButton("./delete.png", "delete");
+        copy = createButton("./copy.png", "copy");
+        rotate = createButton("./rotate.png", "rotate");
+        undo = createButton("", "undo");
+        redo = createButton("", "redo");
+
         fillBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // JColorChooser is a popup that lets you pick a color
                 Color temp = JColorChooser.showDialog(null, "Pick fill color", Color.white);
-                if(temp != null)    
+                if (temp != null) {
                     fillColor = temp;
+                }
                 System.out.println(Paint.fillColor.toString());
             }
         });
-        
+
         toolBox.add(select);
         toolBox.add(fillBut);
         toolBox.add(move);
@@ -129,9 +141,12 @@ public class Paint extends JFrame{
         toolBox.add(delete);
         toolBox.add(copy);
         toolBox.add(rotate);
+        toolBox.add(undo);
+        toolBox.add(redo);
     }
+
     public static void main(String[] args) {
-        
+
         Paint p = new Paint();
         /*// TEST FACTORY
         ShapeFactory f = new ShapeFactory();
@@ -142,7 +157,7 @@ public class Paint extends JFrame{
         c.draw();
         r.draw();
         // OK GOOD...*/
-        
+
     }
-    
+
 }
