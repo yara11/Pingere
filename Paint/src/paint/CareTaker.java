@@ -16,39 +16,15 @@ public class CareTaker {
     private Stack<Memento> undoStack = new Stack<Memento>();
     private Stack<Memento> redoStack = new Stack<Memento>();
     
-    /*public void addToUndo(Memento state){
-        undoStack.push(state);
-    }
-    
-    public Memento getFromUndo(){
-        if(undoStack.empty())
-            return null;
-        return undoStack.pop();
-    }
-    
-    public void addToRedo(Memento state){
-        redoStack.push(state);
-    }
-    
-    public Memento getFromRedo(){
-        if(redoStack.empty())
-            return null;
-        return redoStack.pop();
-    }
-    
-    public void clearRedo(){
-        redoStack.clear();
-    }*/
-    
     public Memento undo(Memento state){
-        if(undoStack.empty())
+        if(undoStack.isEmpty())
             return null;
         redoStack.push(state);
         return undoStack.pop();
     }
     
     public Memento redo(Memento state){
-        if(redoStack.empty())
+        if(redoStack.isEmpty())
             return null;
         undoStack.push(state);
         return redoStack.pop();

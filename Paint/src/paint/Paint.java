@@ -23,12 +23,14 @@ import javax.swing.JPanel;
  */
 public class Paint extends JFrame {
 
+        Canvas canvas = Canvas.getInstance();
     /**
      * Toolbox *
      */
     JPanel buttonPanel = new JPanel();
     JPanel buttonPanel2 = new JPanel();
-    JButton lineBut, rectBut, squareBut, ellipseBut, circleBut, triBut, fillBut, strokeBut, select, move, resize, delete, fill, copy, rotate, undo, redo;
+    JButton lineBut, rectBut, squareBut, ellipseBut, circleBut, triBut, fillBut, strokeBut, select, move, resize, delete, fill, copy, rotate;
+    public static JButton undo, redo;
     Box optionBox = Box.createHorizontalBox();
     Box toolBox = Box.createVerticalBox();
 
@@ -55,7 +57,6 @@ public class Paint extends JFrame {
         // We used the pannel to set its positions in the drawing area
         this.add(buttonPanel, BorderLayout.PAGE_START);
         this.add(buttonPanel2, BorderLayout.WEST);
-        Canvas canvas = Canvas.getInstance();
         this.add(canvas);
         this.setVisible(true);// Set its visibilty to true
 
@@ -134,6 +135,29 @@ public class Paint extends JFrame {
             }
         });
 
+        
+        undo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ShapeContainer.Memento m = canvas.careTaker.undo(canvas.shapes.saveStateToMemento());
+                if(m!=null){
+                    canvas.shapes.setState(m.getState());
+                    canvas.repaint();
+                }
+            }
+        });
+        
+        redo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ShapeContainer.Memento m = canvas.careTaker.redo(canvas.shapes.saveStateToMemento());
+                if(m!=null){
+                    canvas.shapes.setState(m.getState());
+                    canvas.repaint();
+                }
+            }
+        });
+        
         toolBox.add(select);
         toolBox.add(fillBut);
         toolBox.add(move);

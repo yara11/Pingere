@@ -21,8 +21,8 @@ public class Canvas extends JComponent {
 
     // Tracking each shape in the project
     //ArrayList<MyShape> shapeList = new ArrayList<MyShape>();
-    ShapeContainer shapes = new ShapeContainer();
-    CareTaker careTaker = new CareTaker();
+    public ShapeContainer shapes = new ShapeContainer();
+    public CareTaker careTaker = new CareTaker();
     private static Canvas instance = new Canvas();
 
     // To find the coordinates of the mouse from the begining and endng of the dragging
@@ -61,6 +61,8 @@ public class Canvas extends JComponent {
                     selectedShape = getSelectedShape(startPoint);
                     // User didn't press an empty space
                     if (selectedShape != null) {
+                        //change in state
+                        careTaker.change(shapes.saveStateToMemento());
                         selectedShape.color(Paint.fillColor);
                         repaint();
                     }
@@ -70,9 +72,10 @@ public class Canvas extends JComponent {
                     selectedShape = getSelectedShape(startPoint);
                     if (selectedShape != null) {
                         shapes.bringFront(selectedShape);
+                        //change in state
+                        careTaker.change(shapes.saveStateToMemento());
                         // Unselect already selected shape, if any:
                         // Remove the dashed rectangle from shapeList
-
                         shapes.removeStrokedShape();
                         shapes.shapeList.add(selectedShape.drawSelectRectangle());
                         repaint();
@@ -87,7 +90,8 @@ public class Canvas extends JComponent {
                     // Unselect already selected shape, if any:
                     // Remove the dashed rectangle from shapeList
                     shapes.removeStrokedShape();
-
+                    //change in state
+                    careTaker.change(shapes.saveStateToMemento());
                     MyShape shapeClone = selectedShape.copy();
                     shapes.shapeList.add(shapeClone);
                     repaint();
@@ -95,6 +99,8 @@ public class Canvas extends JComponent {
                 if (Paint.selectedBut.equals("delete")) {
                     selectedShape = getSelectedShape(startPoint);
                     if (selectedShape != null) {
+                        //change in state
+                        careTaker.change(shapes.saveStateToMemento());
                         shapes.bringFront(selectedShape);
                         shapes.shapeList.remove(selectedShape);
                     }
@@ -109,6 +115,8 @@ public class Canvas extends JComponent {
                     if (selectedShape == null) {
                         return;
                     }
+                    //change in state
+                    careTaker.change(shapes.saveStateToMemento());
                     Resize r = new Resize(selectedShape.getType());
                     System.out.println(r.getW() + " the dimensions " + r.getH());
                     ActionListener AL = new ActionListener() {
@@ -136,6 +144,9 @@ public class Canvas extends JComponent {
                 if (!isShape(Paint.selectedBut)) {
                     endPoint = null;
                     return;
+                } else {
+                    //change in state
+                    careTaker.change(shapes.saveStateToMemento());
                 }
 
                 repaint();
@@ -143,6 +154,7 @@ public class Canvas extends JComponent {
             }
 
         });
+        
     }
 
     // Singleton design
@@ -159,12 +171,14 @@ public class Canvas extends JComponent {
         g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(4));
         if (startPoint != null && endPoint != null) {
-            // Create new shape from the shape factory
+            // Create new shape from the shape cache
             ShapeCache sf = new ShapeCache();
             MyShape aShape = sf.getShape(Paint.selectedBut, startPoint.x, startPoint.y, endPoint.x, endPoint.y);
 
             // if a shape is not selected, go away, else...
             if (aShape != null) {
+                //change in state
+                careTaker.change(shapes.saveStateToMemento());
                 aShape.setStrokeColor(Paint.strokeColor);
                 shapes.shapeList.add(aShape);
             }
