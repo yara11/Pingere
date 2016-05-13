@@ -107,8 +107,23 @@ public class Canvas extends JComponent {
                     repaint();
                 }
                 if (Paint.selectedBut.equals("rotate")) {
+                    selectedShape = getSelectedShape(startPoint);
+                    if (selectedShape == null) {
+                        return;
+                    }
+                    //change in state
+                    careTaker.change(shapes.saveStateToMemento());
+                    Rotation rot = new Rotation();
+                    ActionListener AL = new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            //selectedShape.resize(r.getW(), r.getH());
+                            repaint();
+                        }
+                    };
+                    rot.addButtonAL(AL);
 
-                    /*ToDo*/
+                    repaint();
                 }
                 if (Paint.selectedBut.equals("resize")) {
                     selectedShape = getSelectedShape(startPoint);

@@ -16,8 +16,7 @@ public class Resize extends javax.swing.JFrame {
 
     private double newH;
     private double newW;
-    String newWidthString, newHeightString;
-    static boolean flag;
+    private String newWidthString, newHeightString;
 
     /**
      * Creates new form Resize

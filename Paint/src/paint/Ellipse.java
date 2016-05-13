@@ -44,11 +44,13 @@ public class Ellipse extends MyShape {
         System.out.println("Drawing Ellipse");
         g.setStroke(this.strokeType);
         g.setPaint(this.stroke);
+        g.rotate(Math.toRadians(angle),x+width/2,y+height/2);
         g.draw(ellipseShape);
         if (this.fill != null) {
             g.setPaint(this.fill);
             g.fill(ellipseShape);
         }
+        g.rotate(Math.toRadians(- angle),x+width/2,y+height/2);
     }
 
     @Override

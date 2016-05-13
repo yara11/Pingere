@@ -48,11 +48,13 @@ public class Triangle extends MyShape {
         g.setStroke(this.strokeType);
         g.setPaint(this.stroke);
         System.out.println(bottomLefty);
+        g.rotate(Math.toRadians(angle),x+width/2,y+height/2);
         g.drawPolygon(triangle);
         if (this.fill != null) {
             g.setPaint(this.fill);
             g.fill(triangle);
         }
+        g.rotate(Math.toRadians(- angle),x+width/2,y+height/2);
     }
 
     @Override

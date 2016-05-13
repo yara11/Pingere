@@ -43,7 +43,9 @@ public class Line extends MyShape {
     public void draw(Graphics2D g) {
         g.setStroke(this.strokeType);
         g.setPaint(this.stroke);
+        g.rotate(Math.toRadians(-angle),(x1+x2)/2,(y1+y2)/2);
         g.draw(lineShape);
+        g.rotate(Math.toRadians(angle),(x1+x2)/2,(y1+y2)/2);
         System.out.println("Drawing Line");
     }
 
