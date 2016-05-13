@@ -23,14 +23,14 @@ import javax.swing.JPanel;
  */
 public class Paint extends JFrame {
 
-        Canvas canvas = Canvas.getInstance();
+    public static Canvas canvas = Canvas.getInstance();
     /**
      * Toolbox *
      */
     JPanel buttonPanel = new JPanel();
     JPanel buttonPanel2 = new JPanel();
     JButton lineBut, rectBut, squareBut, ellipseBut, circleBut, triBut, fillBut, strokeBut, select, move, resize, delete, fill, copy, rotate;
-    public static JButton undo, redo;
+    JButton undo, redo, history;
     Box optionBox = Box.createHorizontalBox();
     Box toolBox = Box.createVerticalBox();
 
@@ -122,6 +122,7 @@ public class Paint extends JFrame {
         rotate = createButton("./rotate.png", "rotate");
         undo = createButton("", "undo");
         redo = createButton("", "redo");
+        history = createButton("", "history");
 
         fillBut.addActionListener(new ActionListener() {
             @Override
@@ -158,6 +159,15 @@ public class Paint extends JFrame {
             }
         });
         
+        history.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                History h = new History();
+                h.createList(canvas.careTaker.changes,canvas.careTaker.size,canvas.careTaker.current);
+                h.setVisible(true);
+            }
+        });
+        
         toolBox.add(select);
         toolBox.add(fillBut);
         toolBox.add(move);
@@ -167,6 +177,7 @@ public class Paint extends JFrame {
         toolBox.add(rotate);
         toolBox.add(undo);
         toolBox.add(redo);
+        toolBox.add(history);
     }
 
     public static void main(String[] args) {
