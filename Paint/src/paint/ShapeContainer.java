@@ -6,18 +6,21 @@
 package paint;
 
 import java.awt.BasicStroke;
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**
  *
  * @author Krietallo
  */
+
+// MEMENTO AND ITERATOR PATTERNS APPLIED TO SHAPECONTAINER
+// PROXY DESIGN PATTERN, THE SHAPECONTAINER IS PROXY CLASS FOR THE ARRAYLIST : SHAPELIST
 public class ShapeContainer implements Container {
 
-    float dash1[] = {10.0f};
-    BasicStroke dashed = new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
-
-    ArrayList<MyShape> shapeList = new ArrayList<MyShape>();
+    private final float dash1[] = {10.0f};
+    private final BasicStroke dashed = new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
+    private ArrayList<MyShape> shapeList = new ArrayList<MyShape>();
 
     @Override
     public Iterator getIterator() {
@@ -46,7 +49,21 @@ public class ShapeContainer implements Container {
             }
         }
     }
-
+    
+    MyShape getSelectedShape(Point p) {
+        MyShape ret = null;
+        for (Iterator it = getIterator(); it.hasNext();) {
+            MyShape sh = (MyShape) it.next();
+            if (sh.getShape().contains(p)) {
+                if (sh.getStroke().equals(dashed)) {
+                    continue;
+                }
+                ret = sh;
+            }
+        }
+        return ret;
+    }
+    
     private class ShapeIterator implements Iterator {
 
         int index = 0;

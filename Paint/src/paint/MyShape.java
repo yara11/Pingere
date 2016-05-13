@@ -15,6 +15,7 @@ import java.awt.Stroke;
  *
  * @author User
  */
+// PROTOTYPE PATTERN APPLIED TO MYSHAPE
 public abstract class MyShape implements Cloneable {
 
     protected double x, y, width, height;

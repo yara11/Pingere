@@ -17,10 +17,12 @@ import javax.swing.JComponent;
  * @author Krietallo
  */
 //The canvas used to draw
+// SINGLETON DESIGN PATTERN APPLIED ON CANVAS
 public class Canvas extends JComponent {
 
     // Tracking each shape in the project
-    //ArrayList<MyShape> shapeList = new ArrayList<MyShape>();
+    // Shape container contains all shapes as observers
+    // OBSERVER DESIGN PATTERN
     public ShapeContainer shapes = new ShapeContainer();
     public CareTaker careTaker = new CareTaker();
     private static Canvas instance = new Canvas();
@@ -52,19 +54,19 @@ public class Canvas extends JComponent {
                 repaint();
 
                 if (Paint.selectedBut.equals("select")) {
-                    selectedShape = getSelectedShape(startPoint);
+                    selectedShape = shapes.getSelectedShape(startPoint);
                     if (selectedShape != null) {
                         shapes.bringFront(selectedShape);
                         // Unselect already selected shape, if any:
                         // Remove the dashed rectangle from shapeList
                         shapes.removeStrokedShape();
-                        shapes.shapeList.add(selectedShape.drawSelectRectangle());
+                        shapes.addShape(selectedShape.drawSelectRectangle());
                         repaint();
                     }
                 }
 
                 if (Paint.selectedBut.equals("fill")) {
-                    selectedShape = getSelectedShape(startPoint);
+                    selectedShape = shapes.getSelectedShape(startPoint);
                     // User didn't press an empty space
                     if (selectedShape != null) {
                         //change in state
@@ -75,7 +77,7 @@ public class Canvas extends JComponent {
                 }
 
                 if (Paint.selectedBut.equals("move")) {
-                    selectedShape = getSelectedShape(startPoint);
+                    selectedShape = shapes.getSelectedShape(startPoint);
                     if (selectedShape != null) {
                         shapes.bringFront(selectedShape);
                         //change in state
@@ -83,12 +85,12 @@ public class Canvas extends JComponent {
                         // Unselect already selected shape, if any:
                         // Remove the dashed rectangle from shapeList
                         shapes.removeStrokedShape();
-                        shapes.shapeList.add(selectedShape.drawSelectRectangle());
+                        shapes.addShape(selectedShape.drawSelectRectangle());
                         repaint();
                     }
                 }
                 if (Paint.selectedBut.equals("copy")) {
-                    selectedShape = getSelectedShape(startPoint);
+                    selectedShape = shapes.getSelectedShape(startPoint);
                     if (selectedShape == null) {
                         return;
                     }
@@ -99,21 +101,21 @@ public class Canvas extends JComponent {
                     //change in state
                     careTaker.change(shapes.saveStateToMemento(), "copy " + selectedShape.getType());
                     MyShape shapeClone = selectedShape.copy();
-                    shapes.shapeList.add(shapeClone);
+                    shapes.addShape(shapeClone);
                     repaint();
                 }
                 if (Paint.selectedBut.equals("delete")) {
-                    selectedShape = getSelectedShape(startPoint);
+                    selectedShape = shapes.getSelectedShape(startPoint);
                     if (selectedShape != null) {
                         //change in state
                         careTaker.change(shapes.saveStateToMemento(), "delete " + selectedShape.getType());
                         shapes.bringFront(selectedShape);
-                        shapes.shapeList.remove(selectedShape);
+                        shapes.removeShape(selectedShape);
                     }
                     repaint();
                 }
                 if (Paint.selectedBut.equals("rotate")) {
-                    selectedShape = getSelectedShape(startPoint);
+                    selectedShape = shapes.getSelectedShape(startPoint);
                     if (selectedShape == null) {
                         return;
                     }
@@ -132,7 +134,7 @@ public class Canvas extends JComponent {
                     repaint();
                 }
                 if (Paint.selectedBut.equals("resize")) {
-                    selectedShape = getSelectedShape(startPoint);
+                    selectedShape = shapes.getSelectedShape(startPoint);
                     if (selectedShape == null) {
                         return;
                     }
@@ -161,7 +163,7 @@ public class Canvas extends JComponent {
                 if (Paint.selectedBut.equals("move") && selectedShape != null) {
                     selectedShape.move(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
                     shapes.removeStrokedShape();
-                    shapes.shapeList.add(selectedShape.drawSelectRectangle());
+                    shapes.addShape(selectedShape.drawSelectRectangle());
                     repaint();
                 }
                 if (!isShape(Paint.selectedBut)) {
@@ -201,7 +203,7 @@ public class Canvas extends JComponent {
             // if a shape is not selected, go away, else...
             if (aShape != null) {
                 aShape.setStrokeColor(Paint.strokeColor);
-                shapes.shapeList.add(aShape);
+                shapes.addShape(aShape);
             }
 
             // to avoid drawing extra stuff we will draw the shape once 
@@ -219,7 +221,7 @@ public class Canvas extends JComponent {
             }
             s.draw(g2);
         }
-        shapes.shapeList.remove(sel);
+        shapes.removeShape(sel);
 
         // Because the draw(g2) methods will change the paint and stroke into the shape's fill & stroke colors
         g2.setPaint(tempPaint);
@@ -232,18 +234,4 @@ public class Canvas extends JComponent {
         return s.equals("triangle") || s.equals("rectangle") || s.equals("square") || s.equals("circle") || s.equals("ellipse") || s.equals("line");
     }
 
-    // We could get rid of the index parameter at this point ... But might need it for later.
-    MyShape getSelectedShape(Point p) {
-        MyShape ret = null;
-        for (Iterator it = shapes.getIterator(); it.hasNext();) {
-            MyShape sh = (MyShape) it.next();
-            if (sh.getShape().contains(p)) {
-                if (sh.getStroke().equals(dashed)) {
-                    continue;
-                }
-                ret = sh;
-            }
-        }
-        return ret;
-    }
 }
