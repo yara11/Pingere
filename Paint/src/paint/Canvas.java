@@ -42,14 +42,15 @@ public class Canvas extends JComponent {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if(Paint.selectedBut == null)
+                if (Paint.selectedBut == null) {
                     return;
-                
+                }
+
                 startPoint = e.getPoint();
-                
+
                 shapes.removeStrokedShape();
                 repaint();
-                
+
                 if (Paint.selectedBut.equals("select")) {
                     selectedShape = getSelectedShape(startPoint);
                     if (selectedShape != null) {
@@ -67,7 +68,7 @@ public class Canvas extends JComponent {
                     // User didn't press an empty space
                     if (selectedShape != null) {
                         //change in state
-                        careTaker.change(shapes.saveStateToMemento(), "fill "+selectedShape.getType());
+                        careTaker.change(shapes.saveStateToMemento(), "fill " + selectedShape.getType());
                         selectedShape.color(Paint.fillColor);
                         repaint();
                     }
@@ -78,7 +79,7 @@ public class Canvas extends JComponent {
                     if (selectedShape != null) {
                         shapes.bringFront(selectedShape);
                         //change in state
-                        careTaker.change(shapes.saveStateToMemento(), "move "+selectedShape.getType());
+                        careTaker.change(shapes.saveStateToMemento(), "move " + selectedShape.getType());
                         // Unselect already selected shape, if any:
                         // Remove the dashed rectangle from shapeList
                         shapes.removeStrokedShape();
@@ -96,7 +97,7 @@ public class Canvas extends JComponent {
                     // Remove the dashed rectangle from shapeList
                     shapes.removeStrokedShape();
                     //change in state
-                    careTaker.change(shapes.saveStateToMemento(), "copy "+selectedShape.getType());
+                    careTaker.change(shapes.saveStateToMemento(), "copy " + selectedShape.getType());
                     MyShape shapeClone = selectedShape.copy();
                     shapes.shapeList.add(shapeClone);
                     repaint();
@@ -105,7 +106,7 @@ public class Canvas extends JComponent {
                     selectedShape = getSelectedShape(startPoint);
                     if (selectedShape != null) {
                         //change in state
-                        careTaker.change(shapes.saveStateToMemento(), "delete "+selectedShape.getType());
+                        careTaker.change(shapes.saveStateToMemento(), "delete " + selectedShape.getType());
                         shapes.bringFront(selectedShape);
                         shapes.shapeList.remove(selectedShape);
                     }
@@ -117,7 +118,7 @@ public class Canvas extends JComponent {
                         return;
                     }
                     //change in state
-                    careTaker.change(shapes.saveStateToMemento(), "rotate "+selectedShape.getType());
+                    careTaker.change(shapes.saveStateToMemento(), "rotate " + selectedShape.getType());
                     Rotation rot = new Rotation();
                     ActionListener AL = new ActionListener() {
                         @Override
@@ -136,7 +137,7 @@ public class Canvas extends JComponent {
                         return;
                     }
                     //change in state
-                    careTaker.change(shapes.saveStateToMemento(), "resize "+selectedShape.getType());
+                    careTaker.change(shapes.saveStateToMemento(), "resize " + selectedShape.getType());
                     Resize r = new Resize(selectedShape.getType());
                     System.out.println(r.getW() + " the dimensions " + r.getH());
                     ActionListener AL = new ActionListener() {
@@ -152,8 +153,9 @@ public class Canvas extends JComponent {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if(Paint.selectedBut == null)
+                if (Paint.selectedBut == null) {
                     return;
+                }
                 // We need the start and end point only if we are drawing a shape
                 endPoint = e.getPoint();
                 if (Paint.selectedBut.equals("move") && selectedShape != null) {
@@ -167,7 +169,7 @@ public class Canvas extends JComponent {
                     return;
                 } else {
                     //change in state
-                    careTaker.change(shapes.saveStateToMemento(), "draw "+Paint.selectedBut);
+                    careTaker.change(shapes.saveStateToMemento(), "draw " + Paint.selectedBut);
                 }
 
                 repaint();
@@ -175,7 +177,7 @@ public class Canvas extends JComponent {
             }
 
         });
-        
+
     }
 
     // Singleton design

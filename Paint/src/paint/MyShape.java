@@ -88,12 +88,12 @@ public abstract class MyShape implements Cloneable {
     // when shape is selected a red, dashed rectangle is drawn around it
     public Rectangle drawSelectRectangle() {
         Rectangle z = new Rectangle(selectX, selectY, selectWidth + selectX, selectHeight + selectY);
+        z.rotate(angle);
         float dash1[] = {10.0f};
         BasicStroke dashed = new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
         z.strokeType = dashed;
         z.stroke = Color.red;
         return z;
-
     }
 
     // Using Prototype design pattern
